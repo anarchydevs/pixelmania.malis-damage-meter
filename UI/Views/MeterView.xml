@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+	<View view_layout="horizontal">
+		<BitmapView name="Icon" min_size="Point(16,16)"/>
+		<PowerBar name="Meter" bg_gfx="BarBackground" full_gfx="BarForeground"/>
+	</View>
+</root>
