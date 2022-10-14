@@ -74,7 +74,7 @@ namespace MalisDamageMeter
 
                 if (Window.FindView("Pause", out _views.Pause))
                 {
-                    _views.Pause.SetAllGfx(1430035);
+                    _views.Pause.SetAllGfx(1430036);
                     IsPaused = true;
                     _views.Pause.Clicked = PauseClick;
                 }
@@ -404,7 +404,7 @@ namespace MalisDamageMeter
 
         private void PauseToggle()
         {
-            int texId = IsPaused ? 1430036 : 1430035;
+            int texId = IsPaused ? 1430035 : 1430036;
             _views.Pause.SetAllGfx(texId);
             IsPaused = !IsPaused;
         }
