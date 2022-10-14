@@ -80,6 +80,7 @@ namespace MalisDamageMeter
                 { Stat.Brawl , 0 },
                 { Stat.Dimach , 0 },
                 { Stat.Backstab , 0 },
+                { Stat.FastAttack , 0 },
                 { Stat.SneakAttack , 0 }
             };
         }
