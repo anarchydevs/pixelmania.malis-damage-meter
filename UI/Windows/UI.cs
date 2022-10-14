@@ -34,6 +34,28 @@ namespace MalisDamageMeter
             _views = new Views();
             _resetTimer = new AutoResetInterval(100);
             Utils.LoadCustomTextures($"{Main.PluginDir}\\UI\\Textures\\", 1430035);
+
+            Chat.RegisterCommand("mdmb", (string command, string[] param, ChatWindow chatWindow) =>
+            {
+                string dumpText = DumpDmgFormatBasic();
+
+                if (dumpText != "")
+                    Chat.SendVicinityMessage(dumpText);
+            });
+
+            Chat.RegisterCommand("mdma", (string command, string[] param, ChatWindow chatWindow) =>
+            {
+                if (Targeting.TargetChar == null)
+                {
+                    Chat.WriteLine("Please select a target.");
+                    return;
+                }
+
+                string dumpText = DumpDmgFormatAdvanced();
+
+                if (dumpText != "")
+                    Chat.SendVicinityMessage(dumpText);
+            });
         }
 
         protected override void OnWindowCreating()
@@ -404,26 +426,6 @@ namespace MalisDamageMeter
 
         private void ModeClick(object sender, ButtonBase e)
         {
-            if (Keyboard.IsKeyDown(Key.LeftShift) && Keyboard.IsKeyDown(Key.LeftCtrl))
-            {
-                string dumpText = DumpDmgFormatAdvanced();
-
-                if (dumpText != "")
-                    Chat.SendVicinityMessage(dumpText);
-
-                return;
-            }
-
-            if (Keyboard.IsKeyDown(Key.LeftShift))
-            {
-                string dumpText = DumpDmgFormatBasic();
-
-                if (dumpText != "")
-                    Chat.SendVicinityMessage(dumpText);
-
-                return;
-            }
-
             ModeView modeView = CurrentMode.Next();
             CurrentMode = modeView.Mode;
             _views.ModeText.Text = modeView.Text;

@@ -66,14 +66,14 @@ namespace MalisDamageMeter
             if (Window.FindView("Text", out TextView textView))
             {
                 textView.Text = $"\n\n " +
-                $"- Shift + Click 'Display Mode' icon to dump \n " +
-                $"  basic data of the current Display Mode\n " +
-                $"  If you wish to dump other types of data,\n " +
+                $"- /mdmb - basic dump\n " +
+                $"  For other data, change 'Display Mode'\n " +
                 $"  change the 'Display Mode' beforehand\n " +
                 $"  \n " +
-                $"- Shift + Left Ctrl + Click 'Display Mode'\n " +
-                $"  while targeting a player to dump an \n " +
-                $"  advanced log of that character\n " +
+                $"- /mdma - advanced dump\n " +
+                $"  Dumps advanced logs of one player,\n " +
+                $"  must have a player targeted\n " +
+
                 $"  \n " +
 
                 $"- Open 'Settings' to register player pets \n " +
