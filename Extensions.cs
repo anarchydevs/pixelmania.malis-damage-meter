@@ -28,7 +28,7 @@ namespace MalisDamageMeter
                 Ql = 0,
             };
 
-            if (infoChar.Weapons.Count() != 0)
+            if (infoChar.Weapons.Count() != 0 && (WeaponSlots)attckInfoMsg.WeaponSlot != WeaponSlots.Fist)
             {
                 weaponStat.Name = infoChar.Weapons[(EquipSlot)attckInfoMsg.WeaponSlot].Name;
                 weaponStat.LowId = infoChar.Weapons[(EquipSlot)attckInfoMsg.WeaponSlot].GetStat(Stat.ACGItemTemplateID);
@@ -47,7 +47,7 @@ namespace MalisDamageMeter
                 weaponInfo.DamageType = (Stat)infoChar.GetStat(Stat.DamageType1);
                 return weaponInfo;
             }
-            else if ((WeaponSlots)attckInfoMsg.WeaponSlot == WeaponSlots.TripleWield ||
+            else if ((WeaponSlots)attckInfoMsg.WeaponSlot == WeaponSlots.Fist ||
                 (WeaponSlots)attckInfoMsg.WeaponSlot == WeaponSlots.PetFist5 ||
                 (WeaponSlots)attckInfoMsg.WeaponSlot == WeaponSlots.PetFist4 ||
                 (WeaponSlots)attckInfoMsg.WeaponSlot == WeaponSlots.PetFist3 || 
@@ -177,5 +177,6 @@ public class ModeView
 public class PlayerPet
 {
     public string PlayerName;
+    public int PlayerId;
     public string PetName;
 }

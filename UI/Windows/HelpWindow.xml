@@ -36,7 +36,7 @@
 					<Button name="Group" min_size="Point(15,15)"  max_size="Point(15,15)"/>
 					<TextView layout_borders="Rect(2,0,2,0)" value="/" color="0x00FFF1AC" feature_flags="TVF_RENDER_SHADOW"/>
 					<Button name="All" min_size="Point(15,15)"  max_size="Point(15,15)"/>
-					<TextView min_size="Point(120,15)" layout_borders="Rect(2,0,2,0)"  value="- Solo / Group / All" color="0x00FFF1AC" feature_flags="TVF_RENDER_SHADOW"/>
+					<TextView min_size="Point(166,15)" layout_borders="Rect(2,0,2,0)"  value="- Solo / Group / All (Current)" color="0x00FFF1AC" feature_flags="TVF_RENDER_SHADOW"/>
 				</View>
 				
 			</View>
