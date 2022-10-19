@@ -40,21 +40,22 @@ namespace MalisDamageMeter
                 string dumpText = DumpDmgFormatBasic();
 
                 if (dumpText != "")
-                    Chat.SendVicinityMessage(dumpText);
+                    Chat.SendVicinityMessage(dumpText, VicinityMessageType.Shout);
             });
 
             Chat.RegisterCommand("mdma", (string command, string[] param, ChatWindow chatWindow) =>
             {
-                if (Targeting.TargetChar == null)
+                if (param == null || param.Count() == 0)
                 {
-                    Chat.WriteLine("Please select a target.");
+                    Chat.WriteLine("Invalid target name.");
                     return;
                 }
 
-                string dumpText = DumpDmgFormatAdvanced();
+                var charData = HitRegisters.CharData.FirstOrDefault(x => x.Value.Name == param[0]);
+                string dumpText = charData.Value != null ? DumpDmgFormatAdvanced(charData.Value) : "";
 
                 if (dumpText != "")
-                    Chat.SendVicinityMessage(dumpText);
+                    Chat.SendVicinityMessage(dumpText, VicinityMessageType.Shout);
             });
         }
 
@@ -205,20 +206,16 @@ namespace MalisDamageMeter
                 dump += $@"{counter}.) <font color='#{Colors.Name}'>{charData.Value.Name}</font> <font color='#{Colors.Accent}'>({charData.Value.Profession})</font> <font color='#{Colors.Info}'>Total {CurrentMode}:</font> {TotalDmgFormat(dmgDisplayData)} <font color='#{Colors.Accent}'>|</font> <font color='#{Colors.Info}'>{CurrentMode} Per Minute:</font> {DpmFormat(dmgDisplayData)} <font color='#{Colors.Accent}'>|</font> <font color='#{Colors.Info}'>Total Percent:</font> {PercentFormat((float)dmgDisplayData / displayConfig.TotalAmount)}<br>";
             }
 
-            string fullLog = $@"<a href=""text://<font color='#{Colors.Title}'>Total {CurrentMode}:</font> {displayConfig.TotalAmount}<br><font color='#{Colors.Title}'>Duration:</font> {string.Format("{0:0.0}", _elapsedTime)}s<br><br>" + $"{dump}" + $@""" >{CurrentMode} Dump Basic ({CurrentScope})</a>";
+            string fullLog = $@"<a href=""text://<font color='#{Colors.Title}'>Total {CurrentMode}:</font> {displayConfig.TotalAmount}<br><font color='#{Colors.Title}'>Duration:</font> {string.Format("{0:0.0}", _elapsedTime)}s<br><br>" + $"{dump}<br>" + $"<font color='#{Colors.Info}'>~ Dump provided by Mali's Damage Meter.</font>" + $@""" >{CurrentMode} Dump Basic ({CurrentScope})</a>";
 
             return fullLog;
         }
 
 
-        public string DumpDmgFormatAdvanced()
+        public string DumpDmgFormatAdvanced(CharData charData)
         {
-            if (Targeting.TargetChar == null || !HitRegisters.CharData.ContainsKey(Targeting.TargetChar.Identity.Instance))
-                return "";
-
-            var charData = HitRegisters.CharData[Targeting.TargetChar.Identity.Instance];
             string coreDump = $@"{FormatHeader(charData)}<br>{FormatWeaponInfo(charData)}<br>{FormatDamageInfo(charData)}<br>{FormatHealingInfo(charData)}<br>{FormatAbsorbInfo(charData)}<br>{FormatHitInfo(charData)}";
-            string fullLog = $@"<a href=""text://<font color='#{Colors.Title}'>Total Damage:</font> {HitRegisters.TotalDamage.AllDamage}<br><font color='#{Colors.Title}'>Total Healing:</font> {HitRegisters.TotalDamage.Healing}<br><font color='#{Colors.Title}'>Total Absorbed:</font> {HitRegisters.TotalDamage.Absorb}<br><font color='#{Colors.Title}'>Duration:</font> {string.Format("{0:0.0}", _elapsedTime)}s</font><br><br>" + $"{coreDump}" + $@""" >{Targeting.TargetChar.Name} Dump (Advanced)</a>";
+            string fullLog = $@"<a href=""text://<font color='#{Colors.Title}'>Total Damage:</font> {HitRegisters.TotalDamage.AllDamage}<br><font color='#{Colors.Title}'>Total Healing:</font> {HitRegisters.TotalDamage.Healing}<br><font color='#{Colors.Title}'>Total Absorbed:</font> {HitRegisters.TotalDamage.Absorb}<br><font color='#{Colors.Title}'>Duration:</font> {string.Format("{0:0.0}", _elapsedTime)}s</font><br><br>" + $"{coreDump}<br><br>" + $"<font color='#{Colors.Info}'>~ Dump provided by Mali's Damage Meter.</font>" + $@""" >{charData.Name} Dump (Advanced)</a>";
 
             return fullLog;
         }
@@ -230,7 +227,7 @@ namespace MalisDamageMeter
             string damagePerType = "";
 
             foreach (var damageAmount in new Dictionary<Stat, int>().TotalDamagePerStat(charData))
-                damagePerType += $"<font color='#{Colors.Info}'> {damageAmount.Key}:</font> {damageAmount.Value}<font color='#{Colors.Accent}'> - W:</font> <font color='#{Colors.Bonus}'>{charData.WeaponDamage[damageAmount.Key]}</font> <font color='#{Colors.Accent}'>N:</font> <font color='#{Colors.Bonus}'>{charData.NanoDamage[damageAmount.Key]}</font> <font color='#{Colors.Accent}'>P:</font> <font color='#{Colors.Bonus}'>{charData.PetDamage[damageAmount.Key]}</font> <br>";
+                damagePerType += $"<font color='#{Colors.Info}'>{damageAmount.Key}:</font> {damageAmount.Value}<font color='#{Colors.Accent}'> - W:</font> <font color='#{Colors.Bonus}'>{charData.WeaponDamage[damageAmount.Key]}</font> <font color='#{Colors.Accent}'>N:</font> <font color='#{Colors.Bonus}'>{charData.NanoDamage[damageAmount.Key]}</font> <font color='#{Colors.Accent}'>P:</font> <font color='#{Colors.Bonus}'>{charData.PetDamage[damageAmount.Key]}</font> <br>";
 
             damagePerType += $"<font color='#{Colors.Info}'> Reflect/Shield:</font> {charData.TotalDamage.Reflect}<br>";
             damageInfo += damagePerType;
@@ -256,7 +253,7 @@ namespace MalisDamageMeter
 
         private string FormatHeader(CharData charData)
         {
-            return  $"<font color='#{Colors.Name}'>{charData.Name}</font><br><font color='#{Colors.Info}'>Profession:</font> {charData.Profession}<br>";
+            return  $"<font color='#{Colors.Name}'>{charData.Name}</font><br><br><font color='#{Colors.Info}'>Profession:</font> {charData.Profession}<br>";
         }
 
         private string FormatHitInfo(CharData charData)
@@ -392,7 +389,7 @@ namespace MalisDamageMeter
             CurrentScope = CurrentScope == Scope.Solo ? Scope.Team : CurrentScope == Scope.Team ? Scope.All : Scope.Solo;
             Main.Settings.Scope = CurrentScope;
             Main.Settings.Save();
-            Chat.WriteLine($"Scope switched to: {CurrentScope}");
+            Chat.WriteLine($"Current Scope set to: {CurrentScope}");
             Midi.Play("Click");
         }
 

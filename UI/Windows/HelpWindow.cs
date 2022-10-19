@@ -70,22 +70,19 @@ namespace MalisDamageMeter
                 $"  For other data, change 'Display Mode'\n " +
                 $"  change the 'Display Mode' beforehand\n " +
                 $"  \n " +
-                $"- /mdma - advanced dump\n " +
+                $"- /mdma name - advanced dump\n " +
                 $"  Dumps advanced logs of one player,\n " +
-                $"  must have a player targeted\n " +
-
                 $"  \n " +
-
                 $"- Open 'Settings' to register player pets \n " +
+                $"  (don't need to register your own pets) \n " +
                 $"  or to reopen this window again. \n ";
             }
 
             if (Window.FindView("Text2", out TextView textView2))
             {
-                textView2.Text =$"\n"+
-                    $"\n" +
+                textView2.Text =$"\n" +
                 $"- For bugs / glitches / requests:\n " +
-                $"  Discord:  Pixelmania#0349\n\n " +
+                $"  Discord:  Pixelmania#0349\n\n\n " +
                 $"       ~ Made with AOSharp SDK";
             }
 

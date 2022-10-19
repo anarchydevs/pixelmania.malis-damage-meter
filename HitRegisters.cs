@@ -41,6 +41,7 @@ namespace MalisDamageMeter
         {
             TotalDamage = new TotalDamage();
             CharData.Clear();
+            PetData.Clear();
         }
 
         private static void MissedAutoAttack(N3Message n3Msg)
@@ -303,34 +304,36 @@ namespace MalisDamageMeter
                     });
             }
 
+
             var petList = Main.Settings.PetList.FirstOrDefault(x => x.PetName == simpleChar.Name);
-
-
+            SimpleChar target = null;
 
             if (petList == null)
             {
                 if (Main.Settings.AutoAssignPets)
-                {
-                    var autoPet = CharData.FirstOrDefault(x => x.Value.Name == simpleChar.Name);
+                    target = DynelManager.Players.FirstOrDefault(x => x.Name == simpleChar.Name);
 
-                    if (autoPet.Value != null)
-                    {
-                        if (!autoPet.Value.PetIds.Contains(simpleChar.Identity.Instance))
-                            autoPet.Value.PetIds.Add(simpleChar.Identity.Instance);
-                    }
-                }
-                return;
+                if (DynelManager.LocalPlayer.Pets.Length > 0 &&
+                    DynelManager.LocalPlayer.Pets.FirstOrDefault(x => x.Identity == simpleChar.Identity) != null)
+                    target = DynelManager.LocalPlayer;
+            }
+            else
+            {
+                target = DynelManager.Players.FirstOrDefault(x => x.Identity.Instance == petList.PlayerId);
             }
 
-            var charData = CharData.FirstOrDefault(x => x.Value.Name == petList.PlayerName);
+            if (target != null)
+            {
+                if (!ScopeCheck(target.Identity))
+                    return;
 
-            if (charData.Value == null)
+                AddCharDataEntry(target);
+            }
+
+            if (CharData[target.Identity.Instance].PetIds.Contains(simpleChar.Identity.Instance))
                 return;
 
-            if (charData.Value.PetIds.Contains(simpleChar.Identity.Instance))
-                return;
-
-            charData.Value.PetIds.Add(simpleChar.Identity.Instance);
+            CharData[target.Identity.Instance].PetIds.Add(simpleChar.Identity.Instance);
         }
 
         private static void AddCharDataEntry(SimpleChar simpleChar)
@@ -410,7 +413,7 @@ public class PetData
 
 public enum WeaponSlots
 {
-    TripleWield = 0x0,
+    Fist = 0x0,
     PetFist1 = 0x1,
     PetFist2 = 0x2,
     PetFist3 = 0x3,

@@ -18,6 +18,8 @@ namespace MalisDamageMeter
     public class SettingsWindow: AOSharpWindow
     {
         private static Views _views;
+        private static List<SimpleChar> _cachedDynels = new List<SimpleChar>();
+
         public SettingsWindow(string name, string path, WindowStyle windowStyle = WindowStyle.Popup, WindowFlags flags = WindowFlags.AutoScale | WindowFlags.NoFade) : base(name, path, windowStyle, flags)
         {
             _views = new Views();
@@ -152,18 +154,21 @@ namespace MalisDamageMeter
             }
 
             PetView petView = new PetView(_views.PetListRoot, playerName, petName);
-            Main.Settings.PetList.Add(new PlayerPet { PetName = petName, PlayerName = playerName });
+            Main.Settings.PetList.Add(new PlayerPet { PetName = petName, PlayerName = playerName, PlayerId = _cachedDynels.FirstOrDefault(x => x.Name == playerName).Identity.Instance });
             Main.Settings.Save();
             Midi.Play("Click");
         }
 
         public void Update()
         {
-            foreach (var dynel in DynelManager.Characters.OrderBy(x=>x.Name).Distinct())
+            _cachedDynels = new List<SimpleChar>();
+
+            foreach (var dynel in DynelManager.Characters.Where(x => x.Identity != DynelManager.LocalPlayer.Identity).OrderBy(x => x.Name).Distinct())
             {
                 if (dynel.IsPlayer)
                 {
                     _views.PlayerSelectMenu.AppendItem(dynel.Name);
+                    _cachedDynels.Add(dynel);
                 }
                 else if (dynel.IsPet)
                 {

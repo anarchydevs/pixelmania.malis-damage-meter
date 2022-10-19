@@ -27,7 +27,7 @@ namespace MalisDamageMeter
 
             Thread stoppingThread = new Thread(() => 
             {
-                StartAndStopMidiWithDelay($"{Main.PluginDir}\\Sound\\{fileName}.wav", alias);
+                StartAndStopMidiWithDelay($"\"{Main.PluginDir}\\Sound\\{fileName}.wav\"", alias);
             });
 
             stoppingThread.Start();
