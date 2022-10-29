@@ -20,48 +20,47 @@ namespace MalisDamageMeter
             if (!DynelManager.Find(attckInfoMsg.Identity, out SimpleChar infoChar))
                 return null;
 
-            WeaponStat weaponStat = new WeaponStat
-            {
-                Name = "",
-                LowId = 0,
-                HighId = 0,
-                Ql = 0,
-            };
-
-            if (infoChar.Weapons.Count() != 0 && (WeaponSlots)attckInfoMsg.WeaponSlot != WeaponSlots.Fist)
-            {
-                weaponStat.Name = infoChar.Weapons[(EquipSlot)attckInfoMsg.WeaponSlot].Name;
-                weaponStat.LowId = infoChar.Weapons[(EquipSlot)attckInfoMsg.WeaponSlot].GetStat(Stat.ACGItemTemplateID);
-                weaponStat.HighId = infoChar.Weapons[(EquipSlot)attckInfoMsg.WeaponSlot].GetStat(Stat.ACGItemTemplateID2);
-                weaponStat.Ql = infoChar.Weapons[(EquipSlot)attckInfoMsg.WeaponSlot].GetStat(Stat.ACGItemLevel);
-            }
+            bool isEquippableWeapon = ((WeaponSlots)attckInfoMsg.WeaponSlot).IsEquippableWeapon();
 
             WeaponInfo weaponInfo = new WeaponInfo
             {
                 Slot = (WeaponSlots)attckInfoMsg.WeaponSlot,
-                WeaponStat = weaponStat,
+                DummyItem = new WeaponStat { Name = "", LowId = 0, HighId = 0, Ql = 0 },
             };
+
+            if (infoChar.Weapons.Count() != 0 && isEquippableWeapon)
+            {
+                weaponInfo.DummyItem.Name = infoChar.Weapons[(EquipSlot)attckInfoMsg.WeaponSlot].Name;
+                weaponInfo.DummyItem.LowId = infoChar.Weapons[(EquipSlot)attckInfoMsg.WeaponSlot].GetStat(Stat.ACGItemTemplateID);
+                weaponInfo.DummyItem.HighId = infoChar.Weapons[(EquipSlot)attckInfoMsg.WeaponSlot].GetStat(Stat.ACGItemTemplateID2);
+                weaponInfo.DummyItem.Ql = infoChar.Weapons[(EquipSlot)attckInfoMsg.WeaponSlot].GetStat(Stat.ACGItemLevel);
+            }
 
             if (infoChar.GetStat(Stat.DamageType1) != 0)
             {
                 weaponInfo.DamageType = (Stat)infoChar.GetStat(Stat.DamageType1);
                 return weaponInfo;
             }
-            else if ((WeaponSlots)attckInfoMsg.WeaponSlot == WeaponSlots.Fist ||
-                (WeaponSlots)attckInfoMsg.WeaponSlot == WeaponSlots.PetFist5 ||
-                (WeaponSlots)attckInfoMsg.WeaponSlot == WeaponSlots.PetFist4 ||
-                (WeaponSlots)attckInfoMsg.WeaponSlot == WeaponSlots.PetFist3 || 
-                (WeaponSlots)attckInfoMsg.WeaponSlot == WeaponSlots.PetFist2 || 
-                (WeaponSlots)attckInfoMsg.WeaponSlot == WeaponSlots.PetFist1)
+            else if (isEquippableWeapon)
+            {
+                weaponInfo.DamageType = (Stat)infoChar.Weapons[(EquipSlot)attckInfoMsg.WeaponSlot].GetStat(Stat.DamageType2);
+                return weaponInfo;
+            }
+            else
             {
                 weaponInfo.DamageType = Stat.MeleeAC;
                 return weaponInfo;
             }
-
-            weaponInfo.DamageType = (Stat)infoChar.Weapons[(EquipSlot)attckInfoMsg.WeaponSlot].GetStat(Stat.DamageType2);
-            return weaponInfo;
         }
 
+        public static bool IsEquippableWeapon(this WeaponSlots weaponSlot)
+        {
+            if (weaponSlot == WeaponSlots.MainHand ||
+                weaponSlot == WeaponSlots.Offhand)
+                return true;
+
+            return false;
+        }
         public static Dictionary<Stat, int> SetStats(this Dictionary<Stat, int> dict)
         {
             return new Dictionary<Stat, int>

@@ -139,8 +139,8 @@ namespace MalisDamageMeter
 
                 CharData.TryGetValue(infoMsg.Identity.Instance, out CharData charData);
 
-                if (!charData.WeaponIds.Any(x => x.WeaponStat.LowId == weaponInfo.WeaponStat.LowId && x.Slot == weaponInfo.Slot))
-                    charData.WeaponIds.Add(new WeaponInfo { WeaponStat = weaponInfo.WeaponStat, Slot = weaponInfo.Slot });
+                if (!charData.WeaponIds.Any(x => x.DummyItem.LowId == weaponInfo.DummyItem.LowId && x.Slot == weaponInfo.Slot))
+                    charData.WeaponIds.Add(new WeaponInfo { DummyItem = weaponInfo.DummyItem, Slot = weaponInfo.Slot });
 
                 charData.WeaponDamage[weaponInfo.DamageType] += infoMsg.Amount;
 
@@ -377,7 +377,7 @@ namespace MalisDamageMeter
 }
 public class WeaponInfo
 {
-    public WeaponStat WeaponStat;
+    public WeaponStat DummyItem;
     public WeaponSlots Slot;
     public Stat DamageType;
 }
