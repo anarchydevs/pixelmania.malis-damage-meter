@@ -373,7 +373,7 @@ namespace MalisDamageMeter
             if (Main.UI.CurrentScope == Scope.Solo && identity != DynelManager.LocalPlayer.Identity)
                 return false;
 
-            if (Main.UI.CurrentScope == Scope.Team && DynelManager.LocalPlayer.IsInTeam() && !Team.Members.Any(x => x.Character.Identity == identity))
+            if (Main.UI.CurrentScope == Scope.Team && !Team.Members.Any(x => x.Character.Identity == identity))
                 return false;
 
             return true;
