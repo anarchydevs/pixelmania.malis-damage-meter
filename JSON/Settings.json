@@ -1,0 +1,12 @@
+{
+  "AutoAssignPets": true,
+  "AutoToggleTimer": false,
+  "ShowTutorial": true,
+  "Scope":  0,
+  "Frame": {
+    "X": 0.0,
+    "Y": 0.0
+  },
+  "PetList": [
+  ]
+}

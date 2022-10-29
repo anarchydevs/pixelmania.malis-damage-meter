@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" standalone="yes"?>
+<root>
+	<View>
+		<BitmapView name="Background" view_layout="horizontal">
+			<BitmapView name="Icon" layout_borders="Rect(1,0,1,0)"/>
+			<TextView name="ModeText" layout_borders="Rect(0,0,1,0)" min_size="Point(106,10)" font="BOLD" color="0x00FFF1AC" feature_flags="TVF_RENDER_SHADOW"/>
+			<HLayoutSpacer/>
+			<TextView name="Elapsed" font="SMALL" value="0.0"/>
+			<HLayoutSpacer/>
+			<Button name="Pause" layout_borders="Rect(0,0,1,0)"/>
+			<Button name="Reset" layout_borders="Rect(0,0,1,0)"/>
+			<Button name="Mode" layout_borders="Rect(0,0,1,0)"/>
+			<Button name="Scope" layout_borders="Rect(0,0,1,0)"/>
+			<Button name="Settings" layout_borders="Rect(0,0,1,0)"/>
+		</BitmapView>
+		<View name="Meters">
+			<LeetHaxxor/>
+		</View>
+	</View>
+</root>

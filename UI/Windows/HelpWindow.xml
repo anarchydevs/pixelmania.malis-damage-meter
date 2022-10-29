@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" standalone="yes"?>
+<Root>
+	<View>
+		<BitmapView name="Logo" h_alignment="LEFT">
+			<View view_layout="horizontal" layout_borders="Rect(5,4,4,0)">
+				<TextView layout_borders="Rect(20,1,0,0)" value="- Welcome to Mali's Damage Meter -     " font="BOLD" color="0x00FFF1AC" feature_flags="TVF_RENDER_SHADOW"/>
+				<Button layout_borders="Rect(10,1,0,0)" min_size="Point(15,15)"  max_size="Point(15,15)" name="Close"/>				
+			</View>
+			<View layout_borders="Rect(20,15,0,0)"  h_alignment="LEFT">
+
+				<View view_layout="horizontal" layout_borders="Rect(5,4,4,0)">
+					<Button name="Start" min_size="Point(15,15)"  max_size="Point(15,15)"/>
+					<TextView layout_borders="Rect(2,0,2,0)" value="/" color="0x00FFF1AC" feature_flags="TVF_RENDER_SHADOW"/>
+					<Button name="Pause" min_size="Point(15,15)"  max_size="Point(15,15)"/>
+					<TextView min_size="Point(120,15)" layout_borders="Rect(2,0,2,0)" value="- Start / Pause" color="0x00FFF1AC" feature_flags="TVF_RENDER_SHADOW"/>
+				</View>
+
+				<View view_layout="horizontal" layout_borders="Rect(5,4,4,0)">
+					<Button name="Reset" min_size="Point(15,15)"  max_size="Point(15,15)"/>
+					<TextView min_size="Point(120,15)" layout_borders="Rect(2,0,2,0)" value="- Reset" color="0x00FFF1AC" feature_flags="TVF_RENDER_SHADOW"/>
+				</View>
+
+				<View view_layout="horizontal" layout_borders="Rect(5,4,4,0)">
+					<Button name="Mode" min_size="Point(15,15)"  max_size="Point(15,15)"/>
+					<TextView min_size="Point(120,15)" layout_borders="Rect(2,0,2,0)" value="- Display mode" color="0x00FFF1AC" feature_flags="TVF_RENDER_SHADOW"/>
+				</View>
+
+				<View view_layout="horizontal" layout_borders="Rect(5,4,4,0)">
+					<Button name="Settings" min_size="Point(15,15)"  max_size="Point(15,15)"/>
+					<TextView min_size="Point(120,15)" layout_borders="Rect(2,0,2,0)" value="- Settings" color="0x00FFF1AC" feature_flags="TVF_RENDER_SHADOW"/>
+				</View>
+
+				<View view_layout="horizontal" layout_borders="Rect(5,4,4,0)">
+					<Button name="Solo" min_size="Point(15,15)"  max_size="Point(15,15)"/>
+					<TextView layout_borders="Rect(2,0,2,0)" value="/" color="0x00FFF1AC" feature_flags="TVF_RENDER_SHADOW"/>
+					<Button name="Group" min_size="Point(15,15)"  max_size="Point(15,15)"/>
+					<TextView layout_borders="Rect(2,0,2,0)" value="/" color="0x00FFF1AC" feature_flags="TVF_RENDER_SHADOW"/>
+					<Button name="All" min_size="Point(15,15)"  max_size="Point(15,15)"/>
+					<TextView min_size="Point(166,15)" layout_borders="Rect(2,0,2,0)"  value="- Solo / Group / All (Current)" color="0x00FFF1AC" feature_flags="TVF_RENDER_SHADOW"/>
+				</View>
+				
+			</View>
+			<TextView  layout_borders="Rect(5,2,5,0)" font="LARGE" color="0x00FFF1AC" feature_flags="TVF_MULTILINE|TVF_RENDER_SHADOW" name="Text"/>
+			<TextView min_size="Point(270,70)" layout_borders="Rect(10,0,5,0)" font="LARGE" color="0x00FFF1AC" feature_flags="TVF_MULTILINE|TVF_RENDER_SHADOW" name="Text2"/>
+			<VLayoutSpacer/>
+		</BitmapView>
+	</View>
+</Root>
