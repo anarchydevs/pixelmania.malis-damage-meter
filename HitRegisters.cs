@@ -128,7 +128,7 @@ namespace MalisDamageMeter
                 PetData.TryGetValue(infoMsg.Identity.Instance, out PetData petData);
                 petData.PetDamage[weaponInfo.DamageType] += infoMsg.Amount;
 
-                CharPetProcess(petData, infoMsg.Identity.Instance, infoMsg.Amount);
+                CharPetProcess(petData, infoMsg.Identity.Instance, weaponInfo.DamageType, infoMsg.Amount);
             }
             else if (simpleChar.IsPlayer)
             {
@@ -180,7 +180,7 @@ namespace MalisDamageMeter
                 else if (infoMsg.Amount > 0)
                     petData.Healing += infoMsg.Amount;
 
-                CharPetProcess(petData, infoMsg.Target.Instance, infoMsg.Amount);
+                CharPetProcess(petData, infoMsg.Target.Instance, infoMsg.Stat, infoMsg.Amount);
             }
             else if (simpleChar.IsPlayer)
             {
@@ -223,7 +223,7 @@ namespace MalisDamageMeter
                 PetData.TryGetValue(infoMsgIdentity.Instance, out PetData petData);
                 petData.PetDamage[dmgType] += amount;
 
-                CharPetProcess(petData, infoMsgIdentity.Instance, -amount);
+                CharPetProcess(petData, infoMsgIdentity.Instance, dmgType, -amount);
             }
             else if (simpleChar.IsPlayer)
             {
@@ -242,14 +242,12 @@ namespace MalisDamageMeter
             }
         }
 
-        private static void CharPetProcess(PetData petData, int identityInstance, int dmgAmount)
+        private static void CharPetProcess(PetData petData, int identityInstance, Stat dmgType, int dmgAmount)
         {
             var charPet = CharData.FirstOrDefault(x => x.Value.PetIds.Contains(identityInstance));
 
             if (charPet.Value == null)
                 return;
-
-            charPet.Value.PetDamage = PetData[identityInstance].PetDamage;
 
             CharData.TryGetValue(charPet.Key, out CharData charData);
 
@@ -257,8 +255,11 @@ namespace MalisDamageMeter
             {
                 int damageCounter = 0;
 
-                foreach (var b in petData.PetDamage)
-                    damageCounter += b.Value;
+                foreach (var dmgData in petData.PetDamage)
+                {
+                    charPet.Value.PetDamage[dmgData.Key] += dmgData.Value;
+                    damageCounter += dmgData.Value;
+                }
 
                 charData.TotalDamage.AllDamage += damageCounter;
                 TotalDamage.AllDamage += damageCounter;
@@ -280,6 +281,8 @@ namespace MalisDamageMeter
 
                     charData.TotalDamage.Pet += dmgAmount;
                     TotalDamage.Pet += dmgAmount;
+
+                    charPet.Value.PetDamage[dmgType] += dmgAmount;
                 }
                 else
                 {
@@ -304,7 +307,6 @@ namespace MalisDamageMeter
                     });
             }
 
-
             var petList = Main.Settings.PetList.FirstOrDefault(x => x.PetName == simpleChar.Name);
             SimpleChar target = null;
 
@@ -322,13 +324,16 @@ namespace MalisDamageMeter
                 target = DynelManager.Players.FirstOrDefault(x => x.Identity.Instance == petList.PlayerId);
             }
 
-            if (target != null)
-            {
-                if (!ScopeCheck(target.Identity))
-                    return;
+            if (target == null)
+                return;
 
-                AddCharDataEntry(target);
-            }
+            if (!ScopeCheck(target.Identity))
+                return;
+
+            AddCharDataEntry(target);
+
+            if (!CharData.ContainsKey(target.Identity.Instance))
+                return;
 
             if (CharData[target.Identity.Instance].PetIds.Contains(simpleChar.Identity.Instance))
                 return;
@@ -368,7 +373,7 @@ namespace MalisDamageMeter
             if (Main.UI.CurrentScope == Scope.Solo && identity != DynelManager.LocalPlayer.Identity)
                 return false;
 
-            if (Main.UI.CurrentScope == Scope.Team && !Team.Members.Any(x => x.Character.Identity == identity))
+            if (Main.UI.CurrentScope == Scope.Team && DynelManager.LocalPlayer.IsInTeam() && !Team.Members.Any(x => x.Character.Identity == identity))
                 return false;
 
             return true;
