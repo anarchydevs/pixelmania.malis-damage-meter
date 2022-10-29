@@ -139,7 +139,7 @@ namespace MalisDamageMeter
                     }
                     else if (CurrentScope == Scope.Team)
                     {
-                        if (Team.Members.FirstOrDefault(x => x.Character.IsAttacking) != null)
+                        if (DynelManager.LocalPlayer.IsInTeam() && Team.Members.FirstOrDefault(x => x.Character != null && x.Character.IsAttacking) != null)
                             PauseToggle();
                     }
                     else if (CurrentScope == Scope.All)
@@ -147,7 +147,6 @@ namespace MalisDamageMeter
                         if (DynelManager.Players.FirstOrDefault(x => x.IsAttacking) != null)
                             PauseToggle();
                     }
-
                 }
                 else
                 {
@@ -158,7 +157,7 @@ namespace MalisDamageMeter
                     }
                     else if (CurrentScope == Scope.Team)
                     {
-                        if (Team.Members.FirstOrDefault(x => x.Character.IsAttacking) == null)
+                        if (DynelManager.LocalPlayer.IsInTeam() && Team.Members.FirstOrDefault(x => x.Character != null && x.Character.IsAttacking) == null)
                             PauseToggle();
                     }
                     else if (CurrentScope == Scope.All)
@@ -167,7 +166,6 @@ namespace MalisDamageMeter
                             PauseToggle();
                     }
                 }
-
             }
 
             if (IsPaused)
@@ -246,7 +244,7 @@ namespace MalisDamageMeter
             string weaponInfo = $"<font color='#{Colors.Info}'>Weapons:</font><br>";
 
             foreach (var weaponIds in charData.WeaponIds)
-                weaponInfo += $"<font color='#{Colors.Info}'> {weaponIds.Slot}:</font> <a href='itemref://{weaponIds.WeaponStat.LowId}/{weaponIds.WeaponStat.HighId}/{weaponIds.WeaponStat.Ql}'>{weaponIds.WeaponStat.Name}</a><br>";
+                weaponInfo += $"<font color='#{Colors.Info}'> {weaponIds.Slot}:</font> <a href='itemref://{weaponIds.DummyItem.LowId}/{weaponIds.DummyItem.HighId}/{weaponIds.DummyItem.Ql}'>{weaponIds.DummyItem.Name}</a><br>";
 
             return weaponInfo;
         }
