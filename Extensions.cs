@@ -64,7 +64,8 @@ namespace MalisDamageMeter
         public static Dictionary<Stat, int> SetStats(this Dictionary<Stat, int> dict)
         {
             return new Dictionary<Stat, int>
-            {
+            {                
+                { Stat.ChemicalAC , 0 },
                 { Stat.ColdAC , 0 },
                 { Stat.EnergyAC , 0 },
                 { Stat.FireAC , 0 },
