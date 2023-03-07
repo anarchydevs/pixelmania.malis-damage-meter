@@ -58,7 +58,7 @@ namespace MalisDamageMeter
 
         public static string BasicCoreDumpGeneral(string name, double elapsedTime, int i, string charName, string charProfession, int totalCharSource, int totalSource)
         {
-            return $"{++i}. <font color='#{Colors.Name}'>{charName}</font> " +
+            return $"{i++}. <font color='#{Colors.Name}'>{charName}</font> " +
                     $"<font color='#{Colors.Accent}'>({charProfession})</font> " +
                     $"<font color='#{Colors.Info}'>Total {name}:</font> " +
                     $"{TotalDmgFormat(totalCharSource)} <font color='#{Colors.Accent}'>|</font> " +
