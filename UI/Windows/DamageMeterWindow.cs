@@ -106,7 +106,7 @@ namespace MalisDamageMeter
 
         public void Update(object sender, float deltaTime)
         {
-            if (Main.Settings.AutoToggleTimer)
+            if (Main.Settings.AutoToggleTimer && ViewSettings.ToggleDelayTimer.Elapsed)
             {
                 if (ViewSettings.IsPaused && ViewSettings.Scope.IsInCombat || !ViewSettings.IsPaused && ViewSettings.Scope.IsNotInCombat)
                 {
@@ -143,7 +143,7 @@ namespace MalisDamageMeter
             if (HitRegisters.Characters.Count == 0)
                 return;
 
-            _displayConfig = HitRegisters.GetDisplayConfig(ViewSettings.Mode, ColorCode.Damage);
+            _displayConfig = HitRegisters.GetDisplayConfig(ViewSettings.Mode);
 
             if (MeterViews.Count != _displayConfig.SimpleCharMeterData.Count)
                 MeterViews.Redraw(_views.MetersRoot, _displayConfig.SimpleCharMeterData.Count);
@@ -213,6 +213,7 @@ namespace MalisDamageMeter
             int texId = ViewSettings.IsPaused ? Textures.PauseButton : Textures.StartButton;
             _views.ResumePauseButton.SetAllGfx(texId);
             ViewSettings.IsPaused = !ViewSettings.IsPaused;
+            UpdateMainWindow();
         }
 
         private void SetMeterDefaults()
@@ -281,9 +282,12 @@ namespace MalisDamageMeter
            
             Chat.WriteLine(basicHealDump);
             File.WriteAllText($"{Utils.FindScriptFolder()}\\mdmb_h", basicHealDump);
-           
-            foreach (var simpleCharData in HitRegisters.Characters.Values.OrderBy(x=>x.Name))
+
+            foreach (var simpleCharData in HitRegisters.Characters.Values.OrderBy(x => x.Name))
             {
+                if (simpleCharData.DamageSources.Total == 0 && simpleCharData.HealSource.Total == 0)
+                    continue;
+
                 var advDump = Format.DumpDmgFormatAdvanced(simpleCharData, ViewSettings.ElapsedTime);
                 Chat.WriteLine(advDump);
                 File.WriteAllText($"{Utils.FindScriptFolder()}\\mdma_{simpleCharData.Name.ToLower()}", advDump);

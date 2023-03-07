@@ -4,14 +4,14 @@
 		<View min_size="Point(17,19)">
 			<BitmapView layout_borders="Rect(1,0,0,0)" name="Icon"/>
 		</View>
-		<View min_size="Point(251,19)"  max_size="Point(251,19)">
+		<View min_size="Point(251,19)" max_size="Point(251,19)">
 			<PowerBar name="Meter5" full_gfx="BarForeground" bg_gfx="BarBackground">
 				<PowerBar name="Meter4" full_gfx="BarForeground" >
 					<PowerBar name="Meter3" full_gfx="BarForeground">
 						<PowerBar name="Meter2" full_gfx="BarForeground">
 							<PowerBar name="Meter" full_gfx="BarForeground">
 								<View view_layout="horizontal">
-									<TextView name="LeftText" font="BOLD" color="0x00FFF1AC" feature_flags="TVF_RENDER_SHADOW" layout_borders="Rect(2,0,0,0)"/>
+									<TextView name="LeftText" max_size="Point(80,-1)" font="BOLD" color="0x00FFF1AC" feature_flags="TVF_RENDER_SHADOW" layout_borders="Rect(2,0,0,0)"/>
 									<HLayoutSpacer/>
 									<TextView name="RightText" font="SMALL" color="0x00FFF1AC" feature_flags="TVF_RENDER_SHADOW" layout_borders="Rect(0,0,2,0)"/>
 								</View>

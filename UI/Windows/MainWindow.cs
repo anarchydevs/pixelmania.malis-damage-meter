@@ -13,7 +13,6 @@ namespace MalisDamageMeter
         protected Views _views = new Views();
         public SettingsWindow SettingsWindow;
         public Config ViewSettings = new Config();
-
         public MainWindow(string name, string path, WindowStyle windowStyle = WindowStyle.Popup, WindowFlags flags = WindowFlags.AutoScale | WindowFlags.NoFade) : base(name, path, windowStyle, flags) { }
 
         protected override void OnWindowCreating() { }
@@ -43,17 +42,7 @@ namespace MalisDamageMeter
             public bool IsPaused;
             public double ElapsedTime;
             public AutoResetInterval ResetTimer = new AutoResetInterval(125);
-        }
-
-        internal static class ColorCode
-        {
-            public const uint Damage = 0x27677A;
-            public const uint Weapon = 0x7a4627;
-            public const uint Nano = 0x27317a;
-            public const uint Healing = 0x7a2727;
-            public const uint Pet = 0x7a276d;
-            public const uint Absorb = 0x277a6d;
-            public const uint Reflect = 0x7a7327;
+            public AutoResetInterval ToggleDelayTimer = new AutoResetInterval(125);
         }
 
         internal static class Textures

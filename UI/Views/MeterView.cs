@@ -106,13 +106,13 @@ public class PowerBarViewData
 
 public static class MeterViewColors
 {
-    public const int HealUser= 0xE06556;
-    public const int HealPet = 0xb57246;
-    public const int DamageAutoAttack = 0x358BA6;
-    public const int DamageSpecials = 0x33BD76;
-    public const int DamageNanobots = 0x59BA25;
-    public const int DamagePet = 0x333ABD;
-    public const int DamageDeflect = 0xA548C7;
+    public const int HealUser= 0xbb5448;
+    public const int HealPet = 0x9c623c;
+    public const int DamageAutoAttack = 0x2e788f;
+    public const int DamageSpecials = 0x81389b;
+    public const int DamageNanobots = 0x4ea220;
+    public const int DamagePet = 0x2c32a2;
+    public const int DamageDeflect = 0x29985f;
 }
 
 public class MeterViewData

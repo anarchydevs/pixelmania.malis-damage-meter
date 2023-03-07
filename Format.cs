@@ -29,7 +29,7 @@ namespace MalisDamageMeter
 
             var totalDmg = HitRegisters.Characters.Values.Select(x => x.DamageSources.Total).Sum();
 
-            foreach (var charData in HitRegisters.Characters.Values)
+            foreach (var charData in HitRegisters.Characters.Values.Where(x => x.DamageSources.Total > 0).OrderByDescending(x =>x.DamageSources.Total))
                 core += BasicCoreDumpGeneral("Damage", elapsedTime, ++i, charData.Name, charData.Profession.ToString(), charData.DamageSources.Total, totalDmg);
 
             string header = BasicHeaderDumpGeneral("Damage", elapsedTime, totalDmg);
@@ -46,7 +46,7 @@ namespace MalisDamageMeter
 
             var totalDmg = HitRegisters.Characters.Values.Select(x => x.HealSource.Total).Sum();
 
-            foreach (var charData in HitRegisters.Characters.Values)
+            foreach (var charData in HitRegisters.Characters.Values.Where(x => x.HealSource.Total > 0).OrderByDescending(x => x.HealSource.Total))
                 core += BasicCoreDumpGeneral("Healing", elapsedTime, ++i, charData.Name, charData.Profession.ToString(), charData.HealSource.Total, totalDmg);
 
             string header = BasicHeaderDumpGeneral("Healing", elapsedTime, totalDmg);
@@ -74,7 +74,6 @@ namespace MalisDamageMeter
                     $"<font color='#{Colors.Title}'>Total {name}:</font> {totalSource}<br>" +
                     $"<font color='#{Colors.Title}'>{name} Per Minute:</font> {DpmFormat(totalSource, elapsedTime)}<br><br>";
         }
-
 
         public static string DumpDmgFormatAdvanced(SimpleCharData charData, double elapsedTime)
         {

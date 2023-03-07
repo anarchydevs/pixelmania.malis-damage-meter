@@ -60,7 +60,7 @@ namespace MalisDamageMeter
         }
 
 
-        public static DisplayConfig GetDisplayConfig(Mode mode, uint barColorCode)
+        public static DisplayConfig GetDisplayConfig(Mode mode)
         {
             List<SimpleCharMeterData> simpleCharMeterData = new List<SimpleCharMeterData>();
 
@@ -112,7 +112,6 @@ namespace MalisDamageMeter
             {
                 SimpleCharMeterData = simpleCharMeterData,
                 TotalAmount = totalAmount,
-                BarColorCode = barColorCode,
             };
         }
     }
