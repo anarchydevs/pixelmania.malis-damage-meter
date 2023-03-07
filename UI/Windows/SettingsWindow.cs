@@ -1,24 +1,18 @@
 ﻿using AOSharp.Common.GameData;
 using AOSharp.Common.GameData.UI;
 using AOSharp.Core;
-using AOSharp.Core.Inventory;
-using AOSharp.Core.Misc;
 using AOSharp.Core.UI;
-using Newtonsoft.Json;
-using SmokeLounge.AOtomation.Messaging.GameData;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using AOSharp.Common.Unmanaged.DataTypes;
-using AOSharp.Common.Unmanaged.Imports;
+using static MalisDamageMeter.MainWindow;
 
 namespace MalisDamageMeter
 {
     public class SettingsWindow: AOSharpWindow
     {
-        private static Views _views;
-        private static List<SimpleChar> _cachedDynels = new List<SimpleChar>();
+        private Views _views;
+        private List<SimpleChar> _cachedDynels = new List<SimpleChar>();
 
         public SettingsWindow(string name, string path, WindowStyle windowStyle = WindowStyle.Popup, WindowFlags flags = WindowFlags.AutoScale | WindowFlags.NoFade) : base(name, path, windowStyle, flags)
         {
@@ -52,23 +46,19 @@ namespace MalisDamageMeter
 
                 if (Window.FindView("AutoPet", out _views.AutoPet))
                 {
-                    _views.AutoPet.Tag = Main.Settings.AutoAssignPets;
-                    int texId = Main.Settings.AutoAssignPets ? 1430046 : 1430047;
-                    _views.AutoPet.SetAllGfx(texId);
-                    _views.AutoPet.Clicked = AutoPetClick;
+                    _views.AutoPet.SetAllGfx(SetEnabledTexture(Main.Window.ViewSettings.AutoAssignPets));
+                    _views.AutoPet.Clicked = AutoAssignPetClick;
                 }
 
                 if (Window.FindView("AutoTimer", out _views.AutoTimer))
                 {
-                    _views.AutoTimer.Tag = Main.Settings.AutoToggleTimer;
-                    int texId = Main.Settings.AutoToggleTimer ? 1430046 : 1430047;
-                    _views.AutoTimer.SetAllGfx(texId);
-                    _views.AutoTimer.Clicked = AutoTimerClick;
+                    _views.AutoTimer.SetAllGfx(SetEnabledTexture(Main.Window.ViewSettings.AutoToggleTimer));
+                    _views.AutoTimer.Clicked = AutoStartTimerClick;
                 }
 
                 if (Window.FindView("PetListRoot", out _views.PetListRoot))
                 {
-                    foreach (PlayerPet pet in Main.Settings.PetList.ToList())
+                    foreach (PlayerPet pet in Main.Window.ViewSettings.PlayerPetManager.PlayerPet)
                     {
                         PetView petView = new PetView(_views.PetListRoot, pet.PlayerName, pet.PetName);
                     }
@@ -76,13 +66,13 @@ namespace MalisDamageMeter
 
                 if (Window.FindView("Help", out _views.Help))
                 {
-                    _views.Help.SetAllGfx(1430054);
+                    _views.Help.SetAllGfx(Textures.HelpButton);
                     _views.Help.Clicked = HelpClick;
                 }
 
                 if (Window.FindView("Close", out _views.Close))
                 {
-                    _views.Close.SetAllGfx(1430049);
+                    _views.Close.SetAllGfx(Textures.CloseButton);
                     _views.Close.Clicked = CloseClick;
                 }
             }
@@ -101,34 +91,28 @@ namespace MalisDamageMeter
 
         private void CloseClick(object sender, ButtonBase e)
         {
-            Main.UI.SettingsWindow = null;
+            Main.Window.SettingsWindow = null;
             Window.Close();
             Midi.Play("Click");
         }
 
-        private void AutoTimerClick(object sender, ButtonBase e)
+        private void AutoStartTimerClick(object sender, ButtonBase e)
         {
-            bool buttonToggle = !(bool)e.Tag;
-            e.Tag = buttonToggle; 
-            Main.Settings.AutoToggleTimer = buttonToggle;
+            Main.Window.ViewSettings.AutoToggleTimer = !Main.Window.ViewSettings.AutoToggleTimer;
             Main.Settings.Save();
-
-            int texId = buttonToggle ? 1430046 : 1430047;
-            ((Button)e).SetAllGfx(texId);
+            ((Button)e).SetAllGfx(SetEnabledTexture(Main.Window.ViewSettings.AutoToggleTimer));
             Midi.Play("Click");
         }
 
-        private void AutoPetClick(object sender, ButtonBase e)
+        private void AutoAssignPetClick(object sender, ButtonBase e)
         {
-            bool buttonToggle = !(bool)e.Tag;
-            e.Tag = buttonToggle;
-            Main.Settings.AutoAssignPets = buttonToggle;
+            Main.Window.ViewSettings.AutoAssignPets = !Main.Window.ViewSettings.AutoAssignPets;
             Main.Settings.Save();
-
-            int texId = buttonToggle ? 1430046 : 1430047;
-            ((Button)e).SetAllGfx(texId);
+            ((Button)e).SetAllGfx(SetEnabledTexture(Main.Window.ViewSettings.AutoAssignPets));
             Midi.Play("Click");
         }
+
+        private int SetEnabledTexture(bool enabled) => enabled ? Textures.GreenCircleButton : Textures.RedCircleButton;
 
         private void AssignPetClick(object sender, ButtonBase e)
         {
@@ -141,20 +125,20 @@ namespace MalisDamageMeter
                 return;
             }
 
-            if (Main.Settings.PetList.Any(x => x.PetName == petName))
+            if (Main.Window.ViewSettings.PlayerPetManager.PlayerPet.Any(x => x.PetName == petName))
             {
                 Chat.WriteLine("This pet name has already been assigned.");
                 return;
             }
 
-            if (Main.Settings.PetList.Any(x => x.PetName == petName && x.PlayerName == playerName))
+            if (Main.Window.ViewSettings.PlayerPetManager.PlayerPet.Any(x => x.PetName == petName && x.PlayerName == playerName))
             {
                 Chat.WriteLine("Your pet list already contains this entry.");
                 return;
             }
 
             PetView petView = new PetView(_views.PetListRoot, playerName, petName);
-            Main.Settings.PetList.Add(new PlayerPet { PetName = petName, PlayerName = playerName, PlayerId = _cachedDynels.FirstOrDefault(x => x.Name == playerName).Identity.Instance });
+            Main.Window.ViewSettings.PlayerPetManager.PlayerPet.Add(new PlayerPet { PetName = petName, PlayerName = playerName, PlayerId = _cachedDynels.FirstOrDefault(x => x.Name == playerName).Identity.Instance });
             Main.Settings.Save();
             Midi.Play("Click");
         }
@@ -162,7 +146,7 @@ namespace MalisDamageMeter
         public void Update()
         {
             _cachedDynels = new List<SimpleChar>();
-
+            // foreach (var dynel in DynelManager.Characters.OrderBy(x => x.Name).Distinct())
             foreach (var dynel in DynelManager.Characters.Where(x => x.Identity != DynelManager.LocalPlayer.Identity).OrderBy(x => x.Name).Distinct())
             {
                 if (dynel.IsPlayer)
@@ -170,9 +154,9 @@ namespace MalisDamageMeter
                     _views.PlayerSelectMenu.AppendItem(dynel.Name);
                     _cachedDynels.Add(dynel);
                 }
-                else if (dynel.IsPet)
+                else if (dynel.IsPet && !DynelManager.LocalPlayer.IsPetOwner(dynel.Identity.Instance)) 
                 {
-                    if (Main.Settings.PetList.FirstOrDefault(x => x.PetName == dynel.Name) != null)
+                    if (Main.Window.ViewSettings.PlayerPetManager.PlayerPet.FirstOrDefault(x => x.PetName == dynel.Name) != null)
                         continue;
 
                     _views.PetSelectMenu.AppendItem(dynel.Name);

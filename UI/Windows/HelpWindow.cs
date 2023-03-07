@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using static MalisDamageMeter.MainWindow;
 
 namespace MalisDamageMeter
 {
@@ -19,71 +20,91 @@ namespace MalisDamageMeter
 
         public HelpWindow()
         {
-            Window = Window.CreateFromXml("MalisDmgMeterHelp", $"{Main.PluginDir}\\UI\\Windows\\HelpWindow.xml", 
+            Window = Window.CreateFromXml("MalisDmgMeterHelp", $"{Main.PluginDir}\\UI\\Windows\\HelpWindow.xml",
                 WindowStyle.Popup, WindowFlags.AutoScale | WindowFlags.NoFade);
 
-            if (Window.FindView("Start", out Button Start))
+            if (Window.FindView("Start", out Button Start)) { Start.SetAllGfx(Textures.StartButton); }
+
+            if (Window.FindView("Pause", out Button Pause)) { Pause.SetAllGfx(Textures.PauseButton); }
+
+            if (Window.FindView("Reset", out Button Reset)) { Reset.SetAllGfx(Textures.ResetButton); }
+
+            if (Window.FindView("Log", out Button Log)) { Log.SetAllGfx(Textures.LogButton); }
+
+            if (Window.FindView("Solo", out Button Solo)) { Solo.SetAllGfx(Textures.SoloScopeButton); }
+
+            if (Window.FindView("Group", out Button Group)) { Group.SetAllGfx(Textures.TeamScopeButton); }
+
+            if (Window.FindView("All", out Button All)) { All.SetAllGfx(Textures.AllScopeButton); }
+
+            if (Window.FindView("Mode", out Button Mode)) { Mode.SetAllGfx(Textures.ModeButton); }
+
+            if (Window.FindView("Settings", out Button Settings)) { Settings.SetAllGfx(Textures.SettingsButton); }
+
+            if (Window.FindView("MeterViewDmgRoot", out View meterViewDmgRoot))
             {
-                Start.SetAllGfx(1430036);
+                MeterView tutDmgMeter = new MeterView();
+
+                var barValues = new List<float> { 0.2f, 0.2f, 0.2f, 0.1f, 0.4f };
+                var barColors = new List<uint>
+                {
+                    MeterViewColors.DamageAutoAttack,
+                    MeterViewColors.DamageSpecials,
+                    MeterViewColors.DamageNanobots,
+                    MeterViewColors.DamagePet,
+                    MeterViewColors.DamageDeflect,
+                };
+
+                float barValue = 0;
+
+                for (int i = 0; i < barColors.Count; i++)
+                {
+                    barValue += barValues[i];
+                    tutDmgMeter.PowerBars[i].PowerBarView.Value = barValue;
+                    tutDmgMeter.PowerBars[i].PowerBarView.SetBarColor(barColors[i]);
+                }
+
+                tutDmgMeter.LeftTextView.Text = "1.) Damage";
+                tutDmgMeter.RightTextView.Text = "69M (69.69K, 100%)";
+
+                meterViewDmgRoot.AddChild(tutDmgMeter.Root, true);
+
             }
 
-            if (Window.FindView("Pause", out Button Pause))
+            if (Window.FindView("MeterViewHealRoot", out View meterViewHealRoot))
             {
-                Pause.SetAllGfx(1430035);
+                MeterView tutHealMeter = new MeterView();
 
-            }
+                var barValues = new List<float> { 0.5f, 0.5f };
+                var barColors = new List<uint>
+                {
+                    MeterViewColors.HealUser,
+                    MeterViewColors.HealPet,
+                };
 
-            if (Window.FindView("Reset", out Button Reset))
-            {
-                Reset.SetAllGfx(1430037);
-            }
+                float barValue = 0;
 
-            if (Window.FindView("Solo", out Button Solo))
-            {
-                Solo.SetAllGfx(1430043);
-            }
+                for (int i = 0; i < barColors.Count; i++)
+                {
+                    barValue += barValues[i];
+                    tutHealMeter.PowerBars[i].PowerBarView.Value = barValue;
+                    tutHealMeter.PowerBars[i].PowerBarView.SetBarColor(barColors[i]);
+                }
 
-            if (Window.FindView("Group", out Button Group))
-            {
-                Group.SetAllGfx(1430044);
-            }
+                tutHealMeter.LeftTextView.Text = "1.) Healing";
+                tutHealMeter.RightTextView.Text = "69M (69.69K, 100%)";
 
-            if (Window.FindView("All", out Button All))
-            {
-                All.SetAllGfx(1430045);
-            }
-
-            if (Window.FindView("Mode", out Button Mode))
-            {
-                Mode.SetAllGfx(1430038);
-            }
-
-            if (Window.FindView("Settings", out Button Settings))
-            {
-                Settings.SetAllGfx(1430039);
+                meterViewHealRoot.AddChild(tutHealMeter.Root, true);
             }
 
             if (Window.FindView("Text", out TextView textView))
             {
-                textView.Text = $"\n\n " +
-                $"- /mdmb - basic dump\n " +
-                $"  For other data, change 'Display Mode'\n " +
-                $"  change the 'Display Mode' beforehand\n " +
-                $"  \n " +
-                $"- /mdma name - advanced dump\n " +
-                $"  Dumps advanced logs of one player,\n " +
-                $"  \n " +
-                $"- Open 'Settings' to register player pets \n " +
-                $"  (don't need to register your own pets) \n " +
-                $"  or to reopen this window again. \n ";
-            }
-
-            if (Window.FindView("Text2", out TextView textView2))
-            {
-                textView2.Text =$"\n" +
+                textView.Text = $"\n\n "+
+                $"- Open 'Settings' to register player pets\n " +
+                $"  (don't need to register your own pets)\n " +
+                $"  or to reopen this window again.\n\n "+
                 $"- For bugs / glitches / requests:\n " +
-                $"  Discord:  Pixelmania#0349\n\n\n " +
-                $"       ~ Made with AOSharp SDK";
+                $"  Discord:  Pixelmania#0349\n";
             }
 
             if (Window.FindView("Close", out Button _closeHelp))

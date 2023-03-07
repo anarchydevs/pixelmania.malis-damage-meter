@@ -23,7 +23,7 @@
 			<View view_layout="horizontal" layout_borders="Rect(0,2,0,2)">
 				<DropdownMenu name="PlayerSelectMenu"/>
 				<DropdownMenu name="PetSelectMenu"/>
-				<Button name="AssignPet"/>
+				<Button name="AssignPet" layout_borders="Rect(-3,0,0,0)" />
 			</View>
 			<View view_layout="horizontal" layout_borders="Rect(0,2,0,0)">
 				<TextView value="Player:" layout_borders="Rect(4,0,2,0)" min_size="Point(133,10)" font="BOLD" color="0x00FFF1AC" feature_flags="TVF_RENDER_SHADOW"/>

@@ -13,23 +13,34 @@ namespace MalisDamageMeter
         public bool AutoAssignPets;
         public bool AutoToggleTimer;
         public bool ShowTutorial;
-        public Scope Scope;
-
-        public List<PlayerPet> PetList = new List<PlayerPet>();
-
-        public Settings()
-        {
-        }
+        public ScopeEnum Scope;
+        public List<PlayerPet> PetList;
 
         public void Save()
         {
-            Frame.X = Main.UI.Window.GetFrame().MinX;
-            Frame.Y = Main.UI.Window.GetFrame().MinY;
+            PetList = Main.Window.ViewSettings.PlayerPetManager.PlayerPet;
+            AutoToggleTimer = Main.Window.ViewSettings.AutoToggleTimer;
+            AutoAssignPets = Main.Window.ViewSettings.AutoAssignPets;
+            Frame.X = Main.Window.Window.GetFrame().MinX;
+            Frame.Y = Main.Window.Window.GetFrame().MinY;
 
             if (ShowTutorial)
                 ShowTutorial = false;
 
             File.WriteAllText($"{Main.PluginDir}\\JSON\\Settings.json", JsonConvert.SerializeObject(this));
+        }
+
+        public static Settings Load(string path)
+        {
+            try
+            {
+                return JsonConvert.DeserializeObject<Settings>(File.ReadAllText(path));
+            }
+            catch
+            {
+                Chat.WriteLine($"Config file can't be loaded.");
+                return null;
+            }
         }
     }
 }

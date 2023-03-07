@@ -25,7 +25,7 @@ namespace MalisDamageMeter
 
             playingMidi.Add(alias, false);
 
-            Thread stoppingThread = new Thread(() => 
+            Thread stoppingThread = new Thread(() =>
             {
                 StartAndStopMidiWithDelay($"\"{Main.PluginDir}\\Sound\\{fileName}.wav\"", alias);
             });
@@ -40,10 +40,12 @@ namespace MalisDamageMeter
 
             playingMidi[alias] = true;
         }
+
         public static void TearDown()
         {
             _tearDown = true;
         }
+
         public static bool isPlaying(string alias)
         {
             return playingMidi.ContainsKey(alias);
@@ -64,8 +66,7 @@ namespace MalisDamageMeter
             Stopwatch timer = new Stopwatch();
             timer.Start();
 
-
-            while ( timer.ElapsedMilliseconds < midiLengthInMilliseconds && !playingMidi[alias])
+            while (timer.ElapsedMilliseconds < midiLengthInMilliseconds && !playingMidi[alias])
             {
                 if (_tearDown)
                 {
@@ -78,7 +79,7 @@ namespace MalisDamageMeter
 
             StopMidi(alias);
         }
-        
+
         private static void StopMidi(string alias)
         {
             if (!playingMidi.ContainsKey(alias))

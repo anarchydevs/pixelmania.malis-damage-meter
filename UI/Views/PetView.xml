@@ -3,6 +3,6 @@
 	<View view_layout="horizontal">
 		<TextView color="0x00FFF1AC" name="PlayerName" min_size="Point(138,16)"/>
 		<TextView color="0x00FFF1AC" name="PetName" min_size="Point(188,16)"/>
-		<Button name="Remove"/>
+		<Button name="Remove" layout_borders="Rect(1,0,0,0)"/>
 	</View>
 </root>

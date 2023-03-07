@@ -15,16 +15,18 @@ namespace MalisDamageMeter
 {
     public static class Extensions
     {
-        public static WeaponInfo GetWeaponDamageType(this AttackInfoMessage attckInfoMsg)
+        public static WeaponInfo GetWeaponInfo(this AttackInfoMessage attckInfoMsg)
         {
             if (!DynelManager.Find(attckInfoMsg.Identity, out SimpleChar infoChar))
                 return null;
 
             bool isEquippableWeapon = ((WeaponSlots)attckInfoMsg.WeaponSlot).IsEquippableWeapon();
 
+            WeaponSlots slot = attckInfoMsg.WeaponSlot > 0 && attckInfoMsg.WeaponSlot < 5 ? WeaponSlots.FistOrPet : (WeaponSlots)attckInfoMsg.WeaponSlot;
+
             WeaponInfo weaponInfo = new WeaponInfo
             {
-                Slot = (WeaponSlots)attckInfoMsg.WeaponSlot,
+                Slot = slot,
                 DummyItem = new WeaponStat { Name = "", LowId = 0, HighId = 0, Ql = 0 },
             };
 
@@ -39,95 +41,29 @@ namespace MalisDamageMeter
             if (infoChar.GetStat(Stat.DamageType1) != 0)
             {
                 weaponInfo.DamageType = (Stat)infoChar.GetStat(Stat.DamageType1);
-                return weaponInfo;
             }
             else if (isEquippableWeapon)
             {
                 weaponInfo.DamageType = (Stat)infoChar.Weapons[(EquipSlot)attckInfoMsg.WeaponSlot].GetStat(Stat.DamageType2);
-                return weaponInfo;
             }
             else
             {
                 weaponInfo.DamageType = Stat.MeleeAC;
-                return weaponInfo;
             }
+
+            return weaponInfo;
         }
 
-        public static bool IsEquippableWeapon(this WeaponSlots weaponSlot)
-        {
-            if (weaponSlot == WeaponSlots.MainHand ||
-                weaponSlot == WeaponSlots.Offhand)
-                return true;
+        public static bool IsEquippableWeapon(this WeaponSlots weaponSlot) => weaponSlot == WeaponSlots.MainHand || weaponSlot == WeaponSlots.Offhand;
 
-            return false;
-        }
-        public static Dictionary<Stat, int> SetStats(this Dictionary<Stat, int> dict)
-        {
-            return new Dictionary<Stat, int>
-            {                
-                { Stat.ChemicalAC , 0 },
-                { Stat.ColdAC , 0 },
-                { Stat.EnergyAC , 0 },
-                { Stat.FireAC , 0 },
-                { Stat.MeleeAC , 0 },
-                { Stat.PoisonAC , 0 },
-                { Stat.ProjectileAC , 0 },
-                { Stat.RadiationAC , 0 },
-                { Stat.FlingShot , 0 },
-                { Stat.Burst , 0 },
-                { Stat.FullAuto , 0 },
-                { Stat.AimedShot , 0 },
-                { Stat.Brawl , 0 },
-                { Stat.Dimach , 0 },
-                { Stat.Backstab , 0 },
-                { Stat.FastAttack , 0 },
-                { Stat.SneakAttack , 0 }
-            };
-        }
-
-        public static Dictionary<Stat, int> TotalDamagePerStat(this Dictionary<Stat, int> dict, CharData charData)
-        {
-            Dictionary<Stat, int> totalDamagePerStat = new Dictionary<Stat, int>().SetStats();
-
-            foreach (var dmg in charData.WeaponDamage)
-                totalDamagePerStat[dmg.Key] += dmg.Value;
-
-            foreach (var dmg in charData.NanoDamage)
-                totalDamagePerStat[dmg.Key] += dmg.Value;
-
-            foreach (var dmg in charData.PetDamage)
-                totalDamagePerStat[dmg.Key] += dmg.Value;
-
-            return totalDamagePerStat;
-        }
-
-        public static ModeView Next(this Mode modeEnum)
-        {
-            switch (modeEnum)
-            {
-                case Mode.Damage:
-                    return new ModeView { Mode = Mode.Weapons, Text = "Weapons" };
-                case Mode.Weapons:
-                    return new ModeView { Mode = Mode.NanosPerks, Text = "Nano / Perk" };
-                case Mode.NanosPerks:
-                    return new ModeView { Mode = Mode.Healing, Text = "Healing" };
-                case Mode.Healing:
-                    return new ModeView { Mode = Mode.Pets, Text = "Pets" };
-                case Mode.Pets:
-                    return new ModeView { Mode = Mode.Absorb, Text = "Absorb" };
-                case Mode.Absorb:
-                    return new ModeView { Mode = Mode.ShieldReflect, Text = "Shield / Reflect" };
-                case Mode.ShieldReflect:
-                    return new ModeView { Mode = Mode.Damage, Text = "All Damage" };
-                default:
-                    return null;
-            }
-        }
+        public static bool IsDamage(this HealthDamageMessage healthMsg) => healthMsg.Amount < 0 ? true : false;
 
         public static void Redraw(this List<MeterView> meterViews, View meterRoot, int count)
         {
             foreach (var meterView in meterViews)
+            {
                 meterRoot.RemoveChild(meterView.Root);
+            }
 
             meterViews.Clear();
 
@@ -138,6 +74,7 @@ namespace MalisDamageMeter
                 meterViews.Add(meterView);
             }
             meterRoot.FitToContents();
+
         }
 
         public static void SetAllGfx(this Button button, int gfxId)
@@ -146,37 +83,7 @@ namespace MalisDamageMeter
             button.SetGfx(ButtonState.Hover, gfxId);
             button.SetGfx(ButtonState.Pressed, gfxId);
         }
+
+        public static bool IsPetOwner(this LocalPlayer localPlayer, int instance) => localPlayer.Pets.Length > 0 && localPlayer.Pets.Any(x => x.Identity.Instance == instance);
     }
-}
-
-public enum Scope
-{
-    Solo,
-    Team,
-    All
-}
-
-public enum Mode
-{
-    Damage,
-    Weapons,
-    NanosPerks,
-    Healing,
-    Pets,
-    Absorb,
-    ShieldReflect
-}
-
-public class ModeView
-{
-    public Mode Mode;
-    public string Text;
-}
-
-
-public class PlayerPet
-{
-    public string PlayerName;
-    public int PlayerId;
-    public string PetName;
 }

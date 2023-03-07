@@ -3,6 +3,7 @@ using AOSharp.Core.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using static MalisDamageMeter.MainWindow;
 
 namespace MalisDamageMeter
 {
@@ -11,9 +12,6 @@ namespace MalisDamageMeter
         public View Root;
         public string PetName;
         public string PlayerName;
-        private TextView _petView;
-        private TextView _playerView;
-        private Button _remove;
         private View _petListRoot;
 
         public PetView(View petListRoot, string playerName, string petName)
@@ -21,22 +19,22 @@ namespace MalisDamageMeter
             Root = View.CreateFromXml($"{Main.PluginDir}\\UI\\Views\\PetView.xml");
             _petListRoot = petListRoot;
 
-            if (Root.FindChild("PlayerName", out _playerView))
+            if (Root.FindChild("PlayerName", out TextView playerView))
             {
                 PlayerName = playerName;
-                _playerView.Text = PlayerName;
+                playerView.Text = PlayerName;
             }
 
-            if (Root.FindChild("PetName", out _petView))
+            if (Root.FindChild("PetName", out TextView petView))
             {
                 PetName = petName;
-                _petView.Text = PetName;
+                petView.Text = PetName;
             }
 
-            if (Root.FindChild("Remove", out _remove))
+            if (Root.FindChild("Remove", out Button remove))
             {
-                _remove.SetAllGfx(1430050);
-                _remove.Clicked = RemoveClick;
+                remove.SetAllGfx(Textures.RedMinusButton);
+                remove.Clicked = RemoveClick;
             }
 
             petListRoot.AddChild(Root, true);
@@ -47,7 +45,8 @@ namespace MalisDamageMeter
         {
             _petListRoot.RemoveChild(Root);
             _petListRoot.FitToContents();
-            Main.Settings.PetList.Remove(Main.Settings.PetList.FirstOrDefault(x => x.PlayerName == PlayerName && x.PetName == PetName));
+            Main.Window.ViewSettings.PlayerPetManager.PlayerPet.Remove(Main.Window.ViewSettings.PlayerPetManager.PlayerPet.FirstOrDefault(x => x.PlayerName == PlayerName && x.PetName == PetName));
+            Main.Settings.PetList = Main.Window.ViewSettings.PlayerPetManager.PlayerPet;
             Main.Settings.Save();
             Midi.Play("Click");
         }
