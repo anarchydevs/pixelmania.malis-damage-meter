@@ -66,8 +66,6 @@ namespace MalisDamageMeter
                     PowerBars[i].PowerBarView.SetBarColor(meterViewData[i].Color);
                     PowerBars[i].Color = meterViewData[i].Color;
                 }
-
-                i++;
             }
         }
 
