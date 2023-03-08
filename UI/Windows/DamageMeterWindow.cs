@@ -156,6 +156,7 @@ namespace MalisDamageMeter
             for (int i = 0; i < MeterViews.Count; i++)
             {
                 var simpleCharMeterData = _displayConfig.SimpleCharMeterData[i];
+
                 MeterViews[i].InitMeterData(simpleCharMeterData, highestValue);
 
                 MeterViews[i].LeftTextView.Text = $"{i + 1}. {simpleCharMeterData.SimpleCharData.Name}";

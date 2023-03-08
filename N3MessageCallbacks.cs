@@ -121,7 +121,6 @@ namespace MalisDamageMeter
             if (simpleCharData.Profession == (Profession)4294967295)
             {
                 simpleCharData.Profession = simpleChar.Profession;
-                Main.Window.MeterViews[simpleChar.Identity.Instance].SetIcon(simpleChar.Profession);
             }
         }
 

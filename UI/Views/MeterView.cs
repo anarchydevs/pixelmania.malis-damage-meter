@@ -32,7 +32,6 @@ namespace MalisDamageMeter
 
             if (Root.FindChild("Meter5", out PowerBarView Meter5)) { Meter5.Value = 0f; }
 
-
             if (Root.FindChild("RightText", out RightTextView)) { }
 
             if (Root.FindChild("LeftText", out LeftTextView)) { }
@@ -55,13 +54,11 @@ namespace MalisDamageMeter
 
         public void SetMeterData(List<MeterViewData> meterViewData, float highestValue)
         {
-            int i = 0;
             int meterValue = 0;
 
-
-            foreach (var data in meterViewData)
+            for (int i = 0; i < meterViewData.Count; i++)
             {
-                meterValue += data.Total;
+                meterValue += meterViewData[i].Total;
 
                 PowerBars[i].PowerBarView.Value = meterValue / highestValue;
 
@@ -80,7 +77,7 @@ namespace MalisDamageMeter
             if (profession == (Profession)4294967295 || profession == _currentProfession)
                 return;
 
-            _currentProfession = profession;
+            _currentProfession = _charMeterData.SimpleCharData.Profession;
             Icon.SetBitmap($"GFX_GUI_ICON_PROFESSION_{(int)profession}");
         }
 
