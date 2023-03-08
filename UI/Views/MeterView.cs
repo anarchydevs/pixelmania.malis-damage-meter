@@ -14,7 +14,7 @@ namespace MalisDamageMeter
         public TextView RightTextView;
         public List<PowerBarViewData> PowerBars;
         private Profession _currentProfession;
-        private SimpleCharMeterData _charMeterData;
+       // private SimpleCharMeterData _charMeterData;
 
         public MeterView()
         {
@@ -47,7 +47,6 @@ namespace MalisDamageMeter
 
         public void InitMeterData(SimpleCharMeterData simpleCharMeterData, float highestValue)
         {
-            _charMeterData = simpleCharMeterData;
             SetIcon(simpleCharMeterData.SimpleCharData.Profession);
             SetMeterData(simpleCharMeterData.MeterViewData, highestValue);
         }
@@ -77,7 +76,7 @@ namespace MalisDamageMeter
             if (profession == (Profession)4294967295 || profession == _currentProfession)
                 return;
 
-            _currentProfession = _charMeterData.SimpleCharData.Profession;
+            _currentProfession = profession;
             Icon.SetBitmap($"GFX_GUI_ICON_PROFESSION_{(int)profession}");
         }
 
