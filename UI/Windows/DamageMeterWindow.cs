@@ -125,11 +125,8 @@ namespace MalisDamageMeter
         {
             if (ViewSettings.ResetTimer.Elapsed)
             {
-              //  for (int i = 0; i < 100; i++)
-                {
-                    _views.Elapsed.Text = Format.Time(ViewSettings.ElapsedTime);
-                    UpdateMeterViews();
-                }
+                _views.Elapsed.Text = Format.Time(ViewSettings.ElapsedTime);
+                UpdateMeterViews();
             }
         }
 
