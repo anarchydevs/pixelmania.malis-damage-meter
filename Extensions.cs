@@ -63,6 +63,7 @@ namespace MalisDamageMeter
             foreach (var meterView in meterViews)
             {
                 meterRoot.RemoveChild(meterView.Root);
+                meterView.Root.Dispose();
             }
 
             meterViews.Clear();
@@ -73,8 +74,8 @@ namespace MalisDamageMeter
                 meterRoot.AddChild(meterView.Root, true);
                 meterViews.Add(meterView);
             }
-            meterRoot.FitToContents();
 
+            meterRoot.FitToContents();
         }
 
         public static void SetAllGfx(this Button button, int gfxId)

@@ -44,6 +44,7 @@ namespace MalisDamageMeter
         private void RemoveClick(object sender, ButtonBase e)
         {
             _petListRoot.RemoveChild(Root);
+            Root.Dispose();
             _petListRoot.FitToContents();
             Main.Window.ViewSettings.PlayerPetManager.PlayerPet.Remove(Main.Window.ViewSettings.PlayerPetManager.PlayerPet.FirstOrDefault(x => x.PlayerName == PlayerName && x.PetName == PetName));
             Main.Settings.PetList = Main.Window.ViewSettings.PlayerPetManager.PlayerPet;

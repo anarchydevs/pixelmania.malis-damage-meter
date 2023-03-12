@@ -14,7 +14,6 @@ namespace MalisDamageMeter
         public TextView RightTextView;
         public List<PowerBarViewData> PowerBars;
         private Profession _currentProfession;
-       // private SimpleCharMeterData _charMeterData;
 
         public MeterView()
         {

@@ -125,8 +125,11 @@ namespace MalisDamageMeter
         {
             if (ViewSettings.ResetTimer.Elapsed)
             {
-                _views.Elapsed.Text = Format.Time(ViewSettings.ElapsedTime);
-                UpdateMeterViews();
+              //  for (int i = 0; i < 100; i++)
+                {
+                    _views.Elapsed.Text = Format.Time(ViewSettings.ElapsedTime);
+                    UpdateMeterViews();
+                }
             }
         }
 
@@ -225,8 +228,11 @@ namespace MalisDamageMeter
             _views.Elapsed.Text = "0:00:00:0";
             ViewSettings.ElapsedTime = 0;
 
-            foreach (var s in MeterViews)
-                _views.MetersRoot.RemoveChild(s.Root);
+            foreach (var views in MeterViews)
+            {
+                _views.MetersRoot.RemoveChild(views.Root);
+                views.Root.Dispose();
+            }
 
             MeterViews.Clear();
             _views.MetersRoot.FitToContents();

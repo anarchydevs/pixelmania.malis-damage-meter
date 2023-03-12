@@ -58,7 +58,7 @@ namespace MalisDamageMeter
 
                 if (Window.FindView("LogMobs", out _views.LogMobs))
                 {
-                    _views.LogMobs.SetAllGfx(SetEnabledTexture(Main.Window.ViewSettings.AutoToggleTimer));
+                    _views.LogMobs.SetAllGfx(SetEnabledTexture(Main.Window.ViewSettings.LogMobs));
                     _views.LogMobs.Clicked = LogMobsClick;
                 }
 
