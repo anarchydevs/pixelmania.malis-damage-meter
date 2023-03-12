@@ -337,6 +337,7 @@ namespace MalisDamageMeter
 
     public enum RegisterType
     {
+        None,
         Player,
         Pet
     }

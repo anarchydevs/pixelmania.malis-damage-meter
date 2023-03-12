@@ -85,20 +85,27 @@ namespace MalisDamageMeter
 
         public bool TryProcess(Identity msgIdentity, out RegisterType registerType, out SimpleCharData simpleCharData)
         {
+            int instance;
             simpleCharData = null;
-            registerType = 0;
+            registerType = RegisterType.None;
 
             if (!DynelManager.Find(msgIdentity, out SimpleChar simpleChar))
                 return false;
 
-            registerType = simpleChar.IsPet ? RegisterType.Pet : RegisterType.Player;
-
-            int instance;
-
-            if (registerType == RegisterType.Pet)
+            if (simpleChar.IsPet)
+            {
+                registerType = RegisterType.Pet;
                 ProcessPet(simpleChar, out simpleCharData, out instance);
-            else
+            }
+            else if (simpleChar.IsPlayer || !simpleChar.IsPlayer && Main.Window.ViewSettings.LogMobs)
+            {
+                registerType = RegisterType.Player;
                 ProcessChar(simpleChar, out simpleCharData, out instance);
+            }
+            else
+            {
+                return false;
+            }
 
             if (!Main.Window.ViewSettings.Scope.Check(instance))
                 return false;

@@ -12,6 +12,7 @@ namespace MalisDamageMeter
         public Vector2 Frame;
         public bool AutoAssignPets;
         public bool AutoToggleTimer;
+        public bool LogMobs;
         public bool ShowTutorial;
         public ScopeEnum Scope;
         public List<PlayerPet> PetList;
@@ -20,6 +21,7 @@ namespace MalisDamageMeter
         {
             PetList = Main.Window.ViewSettings.PlayerPetManager.PlayerPet;
             AutoToggleTimer = Main.Window.ViewSettings.AutoToggleTimer;
+            LogMobs = Main.Window.ViewSettings.LogMobs;
             AutoAssignPets = Main.Window.ViewSettings.AutoAssignPets;
             Frame.X = Main.Window.Window.GetFrame().MinX;
             Frame.Y = Main.Window.Window.GetFrame().MinY;

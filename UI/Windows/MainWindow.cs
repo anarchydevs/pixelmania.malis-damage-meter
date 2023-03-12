@@ -35,14 +35,15 @@ namespace MalisDamageMeter
         public class Config
         {
             public PlayerPetManager PlayerPetManager = new PlayerPetManager();
-            public bool AutoToggleTimer;
-            public bool AutoAssignPets;
             public Scope Scope = new Scope();
             public Mode Mode = new Mode();
-            public bool IsPaused;
-            public double ElapsedTime;
             public AutoResetInterval ResetTimer = new AutoResetInterval(125);
             public AutoResetInterval ToggleDelayTimer = new AutoResetInterval(125);
+            public bool AutoToggleTimer;
+            public bool AutoAssignPets;
+            public bool LogMobs;
+            public bool IsPaused;
+            public double ElapsedTime;
         }
 
         internal static class Textures

@@ -56,6 +56,12 @@ namespace MalisDamageMeter
                     _views.AutoTimer.Clicked = AutoStartTimerClick;
                 }
 
+                if (Window.FindView("LogMobs", out _views.LogMobs))
+                {
+                    _views.LogMobs.SetAllGfx(SetEnabledTexture(Main.Window.ViewSettings.AutoToggleTimer));
+                    _views.LogMobs.Clicked = LogMobsClick;
+                }
+
                 if (Window.FindView("PetListRoot", out _views.PetListRoot))
                 {
                     foreach (PlayerPet pet in Main.Window.ViewSettings.PlayerPetManager.PlayerPet)
@@ -109,6 +115,14 @@ namespace MalisDamageMeter
             Main.Window.ViewSettings.AutoAssignPets = !Main.Window.ViewSettings.AutoAssignPets;
             Main.Settings.Save();
             ((Button)e).SetAllGfx(SetEnabledTexture(Main.Window.ViewSettings.AutoAssignPets));
+            Midi.Play("Click");
+        }
+
+        private void LogMobsClick(object sender, ButtonBase e)
+        {
+            Main.Window.ViewSettings.LogMobs = !Main.Window.ViewSettings.LogMobs;
+            Main.Settings.Save();
+            ((Button)e).SetAllGfx(SetEnabledTexture(Main.Window.ViewSettings.LogMobs));
             Midi.Play("Click");
         }
 
@@ -174,6 +188,7 @@ namespace MalisDamageMeter
             public Button RegisterPet;
             public Button AutoPet;
             public Button AutoTimer;
+            public Button LogMobs;
             public BitmapView Background;
         }   
     }
