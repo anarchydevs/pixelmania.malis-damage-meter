@@ -85,38 +85,35 @@ namespace MalisDamageMeter
 
         public bool TryProcess(Identity msgIdentity, out RegisterType registerType, out SimpleCharData simpleCharData)
         {
-            int instance;
             simpleCharData = null;
             registerType = RegisterType.None;
 
             if (!DynelManager.Find(msgIdentity, out SimpleChar simpleChar))
                 return false;
 
-            if (simpleChar.IsPet)
+            if (simpleChar.IsPlayer || !simpleChar.IsPlayer && Main.Window.ViewSettings.LogMobs)
+            {
+                if (!Main.Window.ViewSettings.Scope.Check(simpleChar.Identity.Instance))
+                    return false;
+
+                registerType = RegisterType.Player;
+                ProcessChar(simpleChar, out simpleCharData);
+            }
+            else if (simpleChar.IsPet)
             {
                 registerType = RegisterType.Pet;
-                ProcessPet(simpleChar, out simpleCharData, out instance);
-            }
-            else if (simpleChar.IsPlayer || !simpleChar.IsPlayer && Main.Window.ViewSettings.LogMobs)
-            {
-                registerType = RegisterType.Player;
-                ProcessChar(simpleChar, out simpleCharData, out instance);
+                ProcessPet(simpleChar, out simpleCharData);
             }
             else
             {
                 return false;
             }
 
-            if (!Main.Window.ViewSettings.Scope.Check(instance))
-                return false;
-
             return true;
         }
 
-        private void ProcessChar(SimpleChar simpleChar, out SimpleCharData simpleCharData, out int instance)
+        private void ProcessChar(SimpleChar simpleChar, out SimpleCharData simpleCharData)
         {
-            instance = simpleChar.Identity.Instance;
-
             if (!HitRegisters.Characters.ContainsKey(simpleChar.Identity.Instance))
             {
                 Utils.InfoPacket(simpleChar.Identity);
@@ -131,7 +128,7 @@ namespace MalisDamageMeter
             }
         }
 
-        private void ProcessPet(SimpleChar simpleChar, out SimpleCharData simpleCharData, out int instance)
+        private void ProcessPet(SimpleChar simpleChar, out SimpleCharData simpleCharData)
         {
             if (!HitRegisters.Pets.ContainsKey(simpleChar.Identity.Instance))
             {
@@ -144,9 +141,7 @@ namespace MalisDamageMeter
 
             if (petChar.OwnerId != 0)
             {
-
                 simpleCharData = HitRegisters.Characters[petChar.OwnerId];
-                instance = petChar.OwnerId;
             }
             else
             {
@@ -174,12 +169,10 @@ namespace MalisDamageMeter
                 {
                     HitRegisters.TransferPetData(petChar, playerId);
                     simpleCharData = charData;
-                    instance = playerId;
                 }
                 else
                 {
                     simpleCharData = HitRegisters.Pets[simpleChar.Identity.Instance];
-                    instance = simpleChar.Identity.Instance;
                 }
             }       
         }
