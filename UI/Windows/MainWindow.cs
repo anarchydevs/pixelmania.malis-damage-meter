@@ -10,14 +10,14 @@ namespace MalisDamageMeter
     public class MainWindow : AOSharpWindow
     {
         public List<MeterView> MeterViews = new List<MeterView>();
-        protected Views _views = new Views();
+        public Views ViewCache = new Views();
         public SettingsWindow SettingsWindow;
         public Config ViewSettings = new Config();
         public MainWindow(string name, string path, WindowStyle windowStyle = WindowStyle.Popup, WindowFlags flags = WindowFlags.AutoScale | WindowFlags.NoFade) : base(name, path, windowStyle, flags) { }
 
         protected override void OnWindowCreating() { }
 
-        protected class Views
+        public class Views
         {
             public Button ResumePauseButton;
             public Button ResetButton;
@@ -30,6 +30,7 @@ namespace MalisDamageMeter
             public TextView Elapsed;
             public TextView ModeText;
             public View MetersRoot;
+            public TotalDisplayView TotalDisplayView;
         }
 
         public class Config
@@ -42,6 +43,7 @@ namespace MalisDamageMeter
             public bool AutoToggleTimer;
             public bool AutoAssignPets;
             public bool LogMobs;
+            public bool TotalValues;
             public bool IsPaused;
             public double ElapsedTime;
         }

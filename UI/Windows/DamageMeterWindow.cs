@@ -34,62 +34,67 @@ namespace MalisDamageMeter
             {
                 LoadSettings();
 
-                if (Window.FindView("Background", out _views.Background))
+                if (Window.FindView("Background", out ViewCache.Background))
                 {
-                    _views.Background.SetBitmap("Background");
+                    ViewCache.Background.SetBitmap("Background");
                 }
 
-                if (Window.FindView("Icon", out _views.Icon))
+                if (Window.FindView("Icon", out ViewCache.Icon))
                 {
-                    _views.Icon.SetBitmap("HeaderIcon");
+                    ViewCache.Icon.SetBitmap("HeaderIcon");
                 }
 
-                if (Window.FindView("ResumePause", out _views.ResumePauseButton))
+                if (Window.FindView("ResumePause", out ViewCache.ResumePauseButton))
                 {
-                    _views.ResumePauseButton.SetAllGfx(Textures.StartButton);
-                    _views.ResumePauseButton.Clicked = PauseClick;
+                    ViewCache.ResumePauseButton.SetAllGfx(Textures.StartButton);
+                    ViewCache.ResumePauseButton.Clicked = PauseClick;
                 }
 
-                if (Window.FindView("Reset", out _views.ResetButton))
+                if (Window.FindView("Reset", out ViewCache.ResetButton))
                 {
-                    _views.ResetButton.SetAllGfx(Textures.ResetButton);
-                    _views.ResetButton.Clicked = ResetClick;
+                    ViewCache.ResetButton.SetAllGfx(Textures.ResetButton);
+                    ViewCache.ResetButton.Clicked = ResetClick;
                 }
 
-                if (Window.FindView("Mode", out _views.ModeButton))
+                if (Window.FindView("Mode", out ViewCache.ModeButton))
                 {
-                    _views.ModeButton.SetAllGfx(Textures.ModeButton);
-                    _views.ModeButton.Clicked = ModeClick;
+                    ViewCache.ModeButton.SetAllGfx(Textures.ModeButton);
+                    ViewCache.ModeButton.Clicked = ModeClick;
                 }
 
-                if (Window.FindView("Log", out _views.LogButton))
+                if (Window.FindView("Log", out ViewCache.LogButton))
                 {
-                    _views.LogButton.SetAllGfx(Textures.LogButton);
-                    _views.LogButton.Clicked = LogClick;
+                    ViewCache.LogButton.SetAllGfx(Textures.LogButton);
+                    ViewCache.LogButton.Clicked = LogClick;
                 }
 
 
-                if (Window.FindView("Scope", out _views.ScopeButton))
+                if (Window.FindView("Scope", out ViewCache.ScopeButton))
                 {
                     int modeGfx = ViewSettings.Scope.SetIcon();
-                    _views.ScopeButton.SetAllGfx(modeGfx);
-                    _views.ScopeButton.Clicked = ScopeClick;
+                    ViewCache.ScopeButton.SetAllGfx(modeGfx);
+                    ViewCache.ScopeButton.Clicked = ScopeClick;
                 }
 
-                if (Window.FindView("Settings", out _views.SettingsButton))
+                if (Window.FindView("Settings", out ViewCache.SettingsButton))
                 {
-                    _views.SettingsButton.SetAllGfx(Textures.SettingsButton);
-                    _views.SettingsButton.Clicked = SettingsClick;
+                    ViewCache.SettingsButton.SetAllGfx(Textures.SettingsButton);
+                    ViewCache.SettingsButton.Clicked = SettingsClick;
                 }
 
-                if (Window.FindView("ModeText", out _views.ModeText))
+                if (Window.FindView("ModeText", out ViewCache.ModeText))
                 {
-                    _views.ModeText.Text = "Damage";
+                    ViewCache.ModeText.Text = "Damage";
                 }
 
-                if (Window.FindView("Elapsed", out _views.Elapsed)) { }
+                if (Window.FindView("TotalDisplay", out View totalDisplayRoot))
+                {
+                    ViewCache.TotalDisplayView = new TotalDisplayView(totalDisplayRoot);
+                }
 
-                if (Window.FindView("Meters", out _views.MetersRoot)) { }
+                if (Window.FindView("Elapsed", out ViewCache.Elapsed)) { }
+
+                if (Window.FindView("Meters", out ViewCache.MetersRoot)) { }
 
                 SetMeterDefaults();
             }
@@ -125,7 +130,7 @@ namespace MalisDamageMeter
         {
             if (ViewSettings.ResetTimer.Elapsed)
             {
-                _views.Elapsed.Text = Format.Time(ViewSettings.ElapsedTime);
+                ViewCache.Elapsed.Text = Format.Time(ViewSettings.ElapsedTime);
                 UpdateMeterViews();
             }
         }
@@ -133,9 +138,9 @@ namespace MalisDamageMeter
         public void UpdateMeterCount()
         {
             MeterView meterView = new MeterView();
-            _views.MetersRoot.AddChild(meterView.Root, true);
+            ViewCache.MetersRoot.AddChild(meterView.Root, true);
             MeterViews.Add(meterView);
-            _views.MetersRoot.FitToContents();
+            ViewCache.MetersRoot.FitToContents();
         }
 
         public void UpdateMeterViews()
@@ -146,7 +151,7 @@ namespace MalisDamageMeter
             _displayConfig = HitRegisters.GetDisplayConfig(ViewSettings.Mode);
 
             if (MeterViews.Count != _displayConfig.SimpleCharMeterData.Count)
-                MeterViews.Redraw(_views.MetersRoot, _displayConfig.SimpleCharMeterData.Count);
+                MeterViews.Redraw(ViewCache.MetersRoot, _displayConfig.SimpleCharMeterData.Count);
 
             if (_displayConfig.SimpleCharMeterData.Count == 0)
                 return;
@@ -164,10 +169,18 @@ namespace MalisDamageMeter
                 $"({Format.DpmFormat(simpleCharMeterData.Total, ViewSettings.ElapsedTime)}, " +
                 $" {Format.PercentFormat((float)simpleCharMeterData.Total / _displayConfig.TotalAmount)})";
             }
+
+            if (ViewSettings.TotalValues && MeterViews.Count > 1)
+            {
+                ViewCache.TotalDisplayView.Show();
+                ViewCache.TotalDisplayView.TotalValue.Text = $"{Format.TotalDmgFormat(_displayConfig.TotalAmount)} " +
+                $"({Format.DpmFormat(_displayConfig.TotalAmount, ViewSettings.ElapsedTime)})";
+            }
         }
 
         private void PauseClick(object sender, ButtonBase e)
         {
+            UpdateMeterViews();
             PauseAction();
             Midi.Play("Click");
         }
@@ -188,7 +201,8 @@ namespace MalisDamageMeter
         {
             var modeView = ViewSettings.Mode.GetNext();
             ViewSettings.Mode.Current = modeView.Key;
-            _views.ModeText.Text = modeView.Value;
+            ViewCache.ModeText.Text = modeView.Value;
+            ViewCache.TotalDisplayView.Hide();
 
             UpdateMeterViews();
 
@@ -212,7 +226,7 @@ namespace MalisDamageMeter
         private void PauseAction()
         {
             int texId = ViewSettings.IsPaused ? Textures.PauseButton : Textures.StartButton;
-            _views.ResumePauseButton.SetAllGfx(texId);
+            ViewCache.ResumePauseButton.SetAllGfx(texId);
             ViewSettings.IsPaused = !ViewSettings.IsPaused;
             UpdateMainWindow();
         }
@@ -222,23 +236,25 @@ namespace MalisDamageMeter
             HitRegisters.Characters.Clear();
             HitRegisters.Pets.Clear();
 
-            _views.Elapsed.Text = "0:00:00:0";
+            ViewCache.Elapsed.Text = "0:00:00:0";
+            ViewCache.TotalDisplayView.Hide();
+
             ViewSettings.ElapsedTime = 0;
 
             foreach (var views in MeterViews)
             {
-                _views.MetersRoot.RemoveChild(views.Root);
+                ViewCache.MetersRoot.RemoveChild(views.Root);
                 views.Root.Dispose();
             }
 
             MeterViews.Clear();
-            _views.MetersRoot.FitToContents();
+            ViewCache.MetersRoot.FitToContents();
         }
 
         private void ScopeAction()
         {
             ViewSettings.Scope.Next();
-            _views.ScopeButton.SetAllGfx(ViewSettings.Scope.SetIcon());
+            ViewCache.ScopeButton.SetAllGfx(ViewSettings.Scope.SetIcon());
             Main.Settings.Scope = ViewSettings.Scope.Current;
             Main.Settings.Save();
             Chat.WriteLine($"Current Scope set to: {ViewSettings.Scope.Current}");
@@ -307,6 +323,8 @@ namespace MalisDamageMeter
             ViewSettings.Scope.Current = Main.Settings.Scope;
             ViewSettings.PlayerPetManager.PlayerPet = Main.Settings.PetList;
             ViewSettings.AutoAssignPets = Main.Settings.AutoAssignPets;
+            ViewSettings.LogMobs = Main.Settings.LogMobs;
+            ViewSettings.TotalValues = Main.Settings.TotalValues;
             ViewSettings.AutoToggleTimer = Main.Settings.AutoToggleTimer;
             ViewSettings.Scope.Current = Main.Settings.Scope;
             ViewSettings.PlayerPetManager.PlayerPet = Main.Settings.PetList;

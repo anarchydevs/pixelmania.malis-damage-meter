@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="Mode.cs" />
     <Compile Include="PlayerPetManager.cs" />
+    <Compile Include="UI\Views\TotalDisplayView.cs" />
     <Compile Include="UI\Windows\HelpWindow.cs" />
     <Compile Include="Scope.cs" />
     <Compile Include="SimpleCharData.cs" />
@@ -150,6 +151,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="UI\Windows\HelpWindow.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="UI\Views\TotalDisplayView.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="UI\Windows\SettingsWindow.xml">

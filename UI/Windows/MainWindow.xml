@@ -19,5 +19,8 @@
 		<View name="Meters">
 			<LeetHaxxor/>
 		</View>
+		<View name="TotalDisplay">
+			<LeetHaxxor/>
+		</View>	
 	</View>
 </root>

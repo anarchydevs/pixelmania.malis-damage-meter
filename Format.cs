@@ -34,7 +34,7 @@ namespace MalisDamageMeter
 
             string header = BasicHeaderDumpGeneral("Damage", elapsedTime, totalDmg);
 
-            string fullLog = $@"<a href=""text://" + $"{header + core}" + $"<font color='#{Colors.Info}'>~ Dump provided by Mali's Damage Meter.</font>" + $@""" >Basic Dump (Damage)</a>";
+            string fullLog = $@"<a href=""text://" + $"{header + core}" + $"<font color='#{Colors.Info}'><br>~ Dump provided by Mali's Damage Meter.</font>" + $@""" >Basic Dump (Damage)</a>";
 
             return fullLog;
         }
@@ -51,7 +51,7 @@ namespace MalisDamageMeter
 
             string header = BasicHeaderDumpGeneral("Healing", elapsedTime, totalDmg);
 
-            string fullLog = $@"<a href=""text://" + $"{header + core}" + $"<font color='#{Colors.Info}'>~ Dump provided by Mali's Damage Meter.</font>" + $@""" >Basic Dump (Healing)</a>";
+            string fullLog = $@"<a href=""text://" + $"{header + core}" + $"<font color='#{Colors.Info}'><br>~ Dump provided by Mali's Damage Meter.</font>" + $@""" >Basic Dump (Healing)</a>";
 
             return fullLog;
         }
@@ -85,7 +85,7 @@ namespace MalisDamageMeter
                 $"{FormatSpecialDamage(charData)}" +
                 $"{FormatOtherDamage(charData)}" +
                 $"{FormatHealing(charData)}" +
-                $"{FormatHitInfo(charData)}<br><br>" +
+                $"{FormatHitInfo(charData)}<br>" +
                 $"<font color='#{Colors.Info}'>~ Dump provided by Mali's Damage Meter.</font>";
 
             string fullLog = $@"<a href=""text://" + $"{coreDump}" + $@""" >Advanced Dump ({charData.Name})</a>";
