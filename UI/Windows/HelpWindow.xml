@@ -63,13 +63,12 @@
 					</View>
 				</View>
 			</View>
-			<View layout_borders="Rect(25,10,5,0)">
-				<TextView min_size="Point(190,20)" layout_borders="Rect(2,0,2,0)" value="/mdmb_d - Basic damage log" color="0x00FFF1AC" feature_flags="TVF_RENDER_SHADOW"/>
-				<TextView min_size="Point(190,20)" layout_borders="Rect(2,0,2,0)" value="/mdmb_h - Basic healing log" color="0x00FFF1AC" feature_flags="TVF_RENDER_SHADOW"/>
-				<TextView min_size="Point(190,20)" layout_borders="Rect(2,0,2,0)" value="/mdma_name - Advanced log" color="0x00FFF1AC" feature_flags="TVF_RENDER_SHADOW"/>
+
+			<View layout_borders="Rect(20,0,0,0)">
+				<TextView name="Commands" layout_borders="Rect(0,0,5,0)"  color="0x00FFF1AC" feature_flags="TVF_MULTILINE|TVF_RENDER_SHADOW"/>
 			</View>
 			<View layout_borders="Rect(20,0,0,0)">
-				<TextView layout_borders="Rect(0,0,5,0)"  color="0x00FFF1AC" feature_flags="TVF_MULTILINE|TVF_RENDER_SHADOW" name="Text"/>
+				<TextView layout_borders="Rect(0,0,5,0)"  color="0x00FFF1AC" feature_flags="TVF_MULTILINE|TVF_RENDER_SHADOW" name="Info"/>
 				<TextView min_size="Point(-1,20)"  value="~ Made with AOSharp SDK" layout_borders="Rect(90,0,0,0)" font="SMALL" color="0x00FFF1AC" feature_flags="TVF_MULTILINE|TVF_RENDER_SHADOW"/>
 			</View>
 		</BitmapView>

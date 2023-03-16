@@ -97,12 +97,20 @@ namespace MalisDamageMeter
                 meterViewHealRoot.AddChild(tutHealMeter.Root, true);
             }
 
-            if (Window.FindView("Text", out TextView textView))
+            if (Window.FindView("Commands", out TextView cmdTextView))
             {
-                textView.Text = $"\n\n "+
-                $"- Open 'Settings' to register player pets\n " +
-                $"  (don't need to register your own pets)\n " +
-                $"  or to reopen this window again.\n\n "+
+                cmdTextView.Text = $"\n\n " +
+                  $"- /mdmb_d - Basic damage log\n " +
+                  $"- /mdmb_h - Basic healing log\n " +
+                  $"- /mdma_name - Advanced log\n ";
+            }
+
+            if (Window.FindView("Info", out TextView infoTextView))
+            {
+                infoTextView.Text = $"\n " +
+                $"- Pets get automatically registered\n\n " +
+                $"- Open 'Settings' to config your meter\n " +
+                $"  or to reopen this window again.\n\n " +
                 $"- For bugs / glitches / requests:\n " +
                 $"  Discord:  Pixelmania#0349\n";
             }

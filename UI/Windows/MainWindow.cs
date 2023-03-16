@@ -12,6 +12,7 @@ namespace MalisDamageMeter
         public List<MeterView> MeterViews = new List<MeterView>();
         public Views ViewCache = new Views();
         public SettingsWindow SettingsWindow;
+        public HelpWindow HelpWindow;
         public Config ViewSettings = new Config();
         public MainWindow(string name, string path, WindowStyle windowStyle = WindowStyle.Popup, WindowFlags flags = WindowFlags.AutoScale | WindowFlags.NoFade) : base(name, path, windowStyle, flags) { }
 
@@ -35,13 +36,11 @@ namespace MalisDamageMeter
 
         public class Config
         {
-            public PlayerPetManager PlayerPetManager = new PlayerPetManager();
             public Scope Scope = new Scope();
             public Mode Mode = new Mode();
             public AutoResetInterval ResetTimer = new AutoResetInterval(125);
             public AutoResetInterval ToggleDelayTimer = new AutoResetInterval(125);
             public bool AutoToggleTimer;
-            public bool AutoAssignPets;
             public bool LogMobs;
             public bool TotalValues;
             public bool IsPaused;

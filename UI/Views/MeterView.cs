@@ -70,7 +70,7 @@ namespace MalisDamageMeter
 
         public void SetIcon(Profession profession)
         {
-            if (profession == (Profession)4294967295 || profession == _currentProfession)
+            if (profession == (Profession)Const.UnkProf || profession == _currentProfession)
                 return;
 
             _currentProfession = profession;

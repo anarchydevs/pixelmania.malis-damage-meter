@@ -22,9 +22,9 @@ namespace MalisDamageMeter
 
             if (Main.Settings.ShowTutorial)
             {
-                HelpWindow _helpWindow = new HelpWindow();
-                _helpWindow.Window.MoveToCenter();
-                _helpWindow.Window.Show(true);
+                HelpWindow = new HelpWindow();
+                HelpWindow.Window.MoveToCenter();
+                HelpWindow.Window.Show(true);
             }
         }
 
@@ -219,7 +219,6 @@ namespace MalisDamageMeter
 
             SettingsWindow = new SettingsWindow("MdmSettings", $"{Main.PluginDir}\\UI\\Windows\\SettingsWindow.xml");
             SettingsWindow.Show();
-            SettingsWindow.Update();
             Midi.Play("Click");
         }
 
@@ -321,13 +320,10 @@ namespace MalisDamageMeter
             ViewSettings.IsPaused = true;
             ViewSettings.Mode.Current = ModeEnum.Damage;
             ViewSettings.Scope.Current = Main.Settings.Scope;
-            ViewSettings.PlayerPetManager.PlayerPet = Main.Settings.PetList;
-            ViewSettings.AutoAssignPets = Main.Settings.AutoAssignPets;
             ViewSettings.LogMobs = Main.Settings.LogMobs;
             ViewSettings.TotalValues = Main.Settings.TotalValues;
             ViewSettings.AutoToggleTimer = Main.Settings.AutoToggleTimer;
             ViewSettings.Scope.Current = Main.Settings.Scope;
-            ViewSettings.PlayerPetManager.PlayerPet = Main.Settings.PetList;
         }
     }
 }

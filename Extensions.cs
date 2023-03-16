@@ -85,6 +85,6 @@ namespace MalisDamageMeter
             button.SetGfx(ButtonState.Pressed, gfxId);
         }
 
-        public static bool IsPetOwner(this LocalPlayer localPlayer, int instance) => localPlayer.Pets.Length > 0 && localPlayer.Pets.Any(x => x.Identity.Instance == instance);
+        public static int GetOwnerId(this SimpleChar simpleChar) => simpleChar.IsPet ? simpleChar.GetStat((Stat)196) : 0;
     }
 }

@@ -122,7 +122,7 @@ namespace MalisDamageMeter
 
             simpleCharData = HitRegisters.Characters[simpleChar.Identity.Instance];
 
-            if (simpleCharData.Profession == (Profession)4294967295)
+            if (simpleCharData.Profession == (Profession)Const.UnkProf)
             {
                 simpleCharData.Profession = simpleChar.Profession;
             }
@@ -137,27 +137,20 @@ namespace MalisDamageMeter
             }
 
             var petChar = HitRegisters.Pets[simpleChar.Identity.Instance];
-            int playerId = 0;
 
             if (petChar.OwnerId != 0)
             {
                 simpleCharData = HitRegisters.Characters[petChar.OwnerId];
+
+                if (simpleCharData.Profession == (Profession)Const.UnkProf || simpleCharData.Profession == Profession.Unknown)
+                {
+                    var ownerChar = DynelManager.Characters.FirstOrDefault(x => x.Identity.Instance == petChar.OwnerId);
+                    simpleCharData.Profession = ownerChar == null ? (Profession)Const.UnkProf : ownerChar.Profession;
+                }
             }
             else
             {
-                if (DynelManager.LocalPlayer.IsPetOwner(simpleChar.Identity.Instance))
-                {
-                    playerId = DynelManager.LocalPlayer.Identity.Instance;
-                }
-                else if (Main.Window.ViewSettings.PlayerPetManager.Contains(petChar.Name, out PlayerPet playerPet))
-                {
-                    playerId = playerPet.PlayerId;
-                }
-                else if (Main.Window.ViewSettings.AutoAssignPets)
-                {
-                    var dynel = DynelManager.Characters.FirstOrDefault(x => x.IsPlayer && x.Name == simpleChar.Name);
-                    playerId = dynel != null ? dynel.Identity.Instance : 0;
-                }
+                int playerId = simpleChar.GetOwnerId();
 
                 if (playerId != 0 && !HitRegisters.Characters.ContainsKey(playerId))
                 {
@@ -185,3 +178,4 @@ public enum DamageSourceType
     Weapon,
     Nano
 }
+

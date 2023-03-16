@@ -18,8 +18,14 @@ using System.Text;
 
 namespace MalisDamageMeter
 {
+    public class Const
+    {
+        public static uint UnkProf = 4294967295;
+    }
+
     public class Utils
     {
+
         public static void LoadCustomTextures(string path, int startId)
         {
             DirectoryInfo textureDir = new DirectoryInfo(path);

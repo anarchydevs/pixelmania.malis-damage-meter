@@ -3,51 +3,28 @@
 	<View>
 		<BitmapView name="Background">
 			<View view_layout="horizontal" min_size="Point(-1, 20)">
-				<HLayoutSpacer/>
-				<TextView value="- Settings -" font="BOLD" color="0x00FFF1AC" feature_flags="TVF_RENDER_SHADOW"/>
+				<TextView layout_borders="Rect(70,0,0,0)" value="- Settings -" font="BOLD" color="0x00FFF1AC" feature_flags="TVF_RENDER_SHADOW"/>
 				<HLayoutSpacer/>
 				<Button name="Help" layout_borders="Rect(0,0,1,0)" />
 				<Button name="Close" layout_borders="Rect(0,0,3,0)" />
 			</View>		
-			<View view_layout="horizontal" layout_borders="Rect(0,2,0,0)">
-				<Button layout_borders="Rect(2,0,2,0)" name="AutoPet"/>
-				<TextView value="Auto assign pets with matching names" font="SMALL" color="0x00FFF1AC" feature_flags="TVF_RENDER_SHADOW"/>
-				<HLayoutSpacer/>
-			</View>
-			<View view_layout="horizontal" layout_borders="Rect(0,2,0,0)">
+			<View view_layout="horizontal" layout_borders="Rect(2,4,0,0)">
 				<Button layout_borders="Rect(2,0,2,0)" name="AutoTimer"/>
 				<TextView value="Auto toggle timer if player(s) in combat" font="SMALL" color="0x00FFF1AC" feature_flags="TVF_RENDER_SHADOW"/>
 				<HLayoutSpacer/>
 			</View>
-			<View view_layout="horizontal" layout_borders="Rect(0,2,0,0)">
+			<View view_layout="horizontal" layout_borders="Rect(2,4,0,0)">
 				<Button layout_borders="Rect(2,0,2,0)" name="TotalValues"/>
 				<TextView value="Live display totals" font="SMALL" color="0x00FFF1AC" feature_flags="TVF_RENDER_SHADOW"/>
 				<HLayoutSpacer/>
 			</View>
-			<View view_layout="horizontal" layout_borders="Rect(0,2,0,0)">
+			<View view_layout="horizontal" layout_borders="Rect(2,4,0,0)">
 				<Button layout_borders="Rect(2,0,2,0)" name="LogMobs"/>
 				<TextView value="Log monsters" font="SMALL" color="0x00FFF1AC" feature_flags="TVF_RENDER_SHADOW"/>
 				<HLayoutSpacer/>
 			</View>
-			<View view_layout="horizontal" layout_borders="Rect(0,2,0,2)">
-				<DropdownMenu name="PlayerSelectMenu"/>
-				<DropdownMenu name="PetSelectMenu"/>
-				<Button name="AssignPet" layout_borders="Rect(-3,0,0,0)" />
-			</View>
-			<View view_layout="horizontal" layout_borders="Rect(0,4,0,2)">
-				<TextView value="Player:" layout_borders="Rect(4,0,2,0)" min_size="Point(133,10)" font="BOLD" color="0x00FFF1AC" feature_flags="TVF_RENDER_SHADOW"/>
-				<TextView value="Pet:" layout_borders="Rect(2,0,2,0)" min_size="Point(173,10)" font="BOLD" color="0x00FFF1AC" feature_flags="TVF_RENDER_SHADOW"/>
-				<HLayoutSpacer/>
-			</View>
-			<ScrollView layout_borders="Rect(2,2,2,2)" h_alignment="LEFT" label="#Behaviour/s" v_scrollbar_mode="auto" scroll_client="behaviour_s_scroll">
-				<ScrollViewChild name="behaviour_s_scroll" min_size="Point(350, 15)">
-					<View name="PetListRoot">
-						<Haxxor/>
-					</View>
-					<VLayoutSpacer/>
-				</ScrollViewChild>
-			</ScrollView>
-			<HLayoutSpacer/>
+			<VLayoutSpacer/>
+
 		</BitmapView>
 	</View>
 </root>
