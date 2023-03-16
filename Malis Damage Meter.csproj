@@ -46,7 +46,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Mode.cs" />
-    <Compile Include="PlayerPetManager.cs" />
     <Compile Include="UI\Views\TotalDisplayView.cs" />
     <Compile Include="UI\Windows\HelpWindow.cs" />
     <Compile Include="Scope.cs" />
