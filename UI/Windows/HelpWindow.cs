@@ -123,7 +123,7 @@ namespace MalisDamageMeter
 
             if (Window.FindView("Logo", out BitmapView _logo))
             {
-                _logo.SetBitmap("BigLogo");
+                _logo.SetBitmap(Textures.HelpBackground);
             }
         }
 

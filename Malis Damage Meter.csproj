@@ -79,67 +79,67 @@
     <Content Include="Sound\Click.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="UI\Textures\001_PauseButton.png">
+    <Content Include="UI\Textures\001_DMPauseButton.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="UI\Textures\017_GreenPlus.png">
+    <Content Include="UI\Textures\017_DMGreenPlus.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="UI\Textures\013_RedCircle.png">
+    <Content Include="UI\Textures\013_DMRedCircle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="UI\Textures\016_RedMinus.png">
+    <Content Include="UI\Textures\016_DMRedMinus.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="UI\Textures\014_HeaderIcon.png">
+    <Content Include="UI\Textures\014_DMHeaderIcon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="UI\Textures\012_GreenCircle.png">
+    <Content Include="UI\Textures\012_DMGreenCircle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="UI\Textures\002_ResumeButton.png">
+    <Content Include="UI\Textures\002_DMResumeButton.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="UI\Textures\003_ResetButton.png">
+    <Content Include="UI\Textures\003_DMResetButton.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="UI\Textures\004_DumpButton.png">
+    <Content Include="UI\Textures\004_DMDumpButton.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="UI\Textures\005_SettingsButton.png">
+    <Content Include="UI\Textures\005_DMSettingsButton.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="UI\Textures\006_Background.png">
+    <Content Include="UI\Textures\006_DMBackground.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="UI\Textures\007_BarBackground.png">
+    <Content Include="UI\Textures\007_DMBarBackground.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="UI\Textures\008_BarForeground.png">
+    <Content Include="UI\Textures\008_DMBarForeground.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="UI\Textures\010_GroupButton.png">
+    <Content Include="UI\Textures\010_DMGroupButton.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="UI\Textures\009_SoloButton.png">
+    <Content Include="UI\Textures\009_DMSoloButton.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="UI\Textures\011_AllButton.png">
+    <Content Include="UI\Textures\011_DMAllButton.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="UI\Textures\015_RedCloseButton.png">
+    <Content Include="UI\Textures\015_DMRedCloseButton.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="UI\Textures\019_BigLogo.png">
+    <Content Include="UI\Textures\019_DMBigLogo.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="UI\Textures\018_SettingsBackground.png">
+    <Content Include="UI\Textures\018_DMSettingsBackground.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="UI\Textures\020_HelpButton.png">
+    <Content Include="UI\Textures\020_DMHelpButton.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="UI\Textures\021_LogButton.png">
+    <Content Include="UI\Textures\021_DMLogButton.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="UI\Views\MeterView.xml">

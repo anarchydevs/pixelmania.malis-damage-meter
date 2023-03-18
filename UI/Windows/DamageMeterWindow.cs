@@ -36,12 +36,12 @@ namespace MalisDamageMeter
 
                 if (Window.FindView("Background", out ViewCache.Background))
                 {
-                    ViewCache.Background.SetBitmap("Background");
+                    ViewCache.Background.SetBitmap(Textures.Background);
                 }
 
                 if (Window.FindView("Icon", out ViewCache.Icon))
                 {
-                    ViewCache.Icon.SetBitmap("HeaderIcon");
+                    ViewCache.Icon.SetBitmap(Textures.Header);
                 }
 
                 if (Window.FindView("ResumePause", out ViewCache.ResumePauseButton))

@@ -19,7 +19,7 @@ namespace MalisDamageMeter
             Root = View.CreateFromXml($"{Main.PluginDir}\\UI\\Views\\TotalDisplayView.xml");
             _mainRoot = mainRootView;
             if (Root.FindChild("TotalValue", out TotalValue)) { }
-            if (Root.FindChild("Background", out BitmapView background)) { background.SetBitmap("Background"); }
+            if (Root.FindChild("Background", out BitmapView background)) { background.SetBitmap(Textures.Background); }
         }
 
         public void Hide()

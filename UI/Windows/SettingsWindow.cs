@@ -25,7 +25,7 @@ namespace MalisDamageMeter
             {
                 if (Window.FindView("Background", out _views.Background))
                 {
-                    _views.Background.SetBitmap("SettingsBackground");
+                    _views.Background.SetBitmap(Textures.SettingsBackground);
                 }
 
                 if (Window.FindView("AutoTimer", out _views.AutoTimer))
