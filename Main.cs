@@ -1,20 +1,6 @@
 ﻿using AOSharp.Common.GameData;
-using AOSharp.Common.Unmanaged.Imports;
 using AOSharp.Core;
 using AOSharp.Core.UI;
-using Newtonsoft.Json;
-using SmokeLounge.AOtomation.Messaging.GameData;
-using SmokeLounge.AOtomation.Messaging.Messages;
-using SmokeLounge.AOtomation.Messaging.Messages.ChatMessages;
-using SmokeLounge.AOtomation.Messaging.Messages.N3Messages;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace MalisDamageMeter
 {
@@ -42,8 +28,6 @@ namespace MalisDamageMeter
             Network.N3MessageReceived += N3MessageCallbacks.N3MessageCallback;
 
             Utils.SetScriptMaxFileSize(16384);
-
-            Midi.Play("Alert");
         }
 
         public override void Teardown()

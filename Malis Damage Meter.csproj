@@ -73,9 +73,6 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Content Include="Sound\Alert.wav">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Sound\Click.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
