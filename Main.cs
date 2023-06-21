@@ -35,6 +35,7 @@ namespace MalisDamageMeter
             Midi.TearDown();
             Utils.SetScriptMaxFileSize(4096);
             Settings.Save();
+            Window.Window.Close();
         }
     }
 }
